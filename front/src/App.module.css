@@ -1,0 +1,23 @@
+.container {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	height: 100vh;
+	margin: 1%;
+	background-color: darkgrey;
+}
+
+.input_div {
+	display: flex;
+	padding: 3rem;
+}
+
+.button {
+	border: 3px;
+	border-radius: 4px;
+	margin: 1px;
+	width: max-content;
+	background-color: #a1d088;
+	margin-left: 1rem;
+	cursor: pointer;
+}
