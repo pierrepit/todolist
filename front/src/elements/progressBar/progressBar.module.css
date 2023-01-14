@@ -1,0 +1,22 @@
+:root {
+	--progressBarHeight: 1rem;
+}
+
+.container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	margin-bottom: auto;
+}
+
+.static {
+	background-color: transparent;
+	border: 1px solid black;
+	height: var(--progressBarHeight);
+}
+
+.dynamic {
+	height: 100%;
+}
