@@ -1,0 +1,24 @@
+{
+	"name": "todolist",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "concurrently \"cd server && npm run devstart\" \"cd front && npm start\" "
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/pierrepit/todolist.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/pierrepit/todolist/issues"
+	},
+	"homepage": "https://github.com/pierrepit/todolist#readme",
+	"devDependencies": {
+		"concurrently": "^7.6.0"
+	}
+}
