@@ -1,7 +1,3 @@
-:root {
-	--progressBarHeight: 1rem;
-}
-
 .container {
 	display: flex;
 	flex-direction: column;
@@ -14,7 +10,7 @@
 .static {
 	background-color: transparent;
 	border: 1px solid black;
-	height: var(--progressBarHeight);
+	height: 1rem;
 }
 
 .dynamic {

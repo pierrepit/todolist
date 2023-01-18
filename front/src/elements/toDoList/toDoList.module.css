@@ -1,4 +1,26 @@
 .todolist {
-    display: flex;
-    flex-direction: column;
+	display: flex;
+	flex-direction: column;
+	padding: var(--padding);
+	border-radius: 10px 40px 10px 40px;
+	background-color: #c3e4b2;
+}
+
+.buttons_container {
+	display: flex;
+	justify-content: space-around;
+}
+
+.entries {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+}
+
+.categories {
+	flex-grow: 1;
+}
+
+.trash {
+	justify-self: flex-end;
+	cursor: pointer;
 }

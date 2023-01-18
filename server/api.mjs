@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
 });
 
 //Getting one
-router.get('/:id', async (req, res) => {
+/* router.get('/:id', async (req, res) => {
 	try {
 		const itemId = req.params.id;
 		if (itemId === undefined) res.status(500).send('no item id');
@@ -28,7 +28,7 @@ router.get('/:id', async (req, res) => {
 		console.log(err);
 		res.status(500).send(err);
 	}
-});
+}); */
 
 //Creating one
 router.post('/add', async (req, res) => {
@@ -43,7 +43,7 @@ router.post('/add', async (req, res) => {
 	}
 });
 
-//Updating one
+/* //Updating one
 router.post('/update/:id', async (req, res) => {
 	try {
 		const item = await db.updateItem(req.params.id, req.body);
@@ -52,7 +52,7 @@ router.post('/update/:id', async (req, res) => {
 		console.log(err);
 		res.status(500).send(err);
 	}
-});
+}); */
 
 //Deleting one
 router.delete('/delete/:id', async (req, res) => {

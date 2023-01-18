@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
-import { getRequest, postRequest /* deleteRequest */ } from './utils';
+import { getRequest, postRequest, deleteRequest } from './utils';
 //import ProgressBar from "./progressBar/progressBar";
-import Input from './elements/toDoInput/toDoInput';
+import ToDoInput from './elements/toDoInput/toDoInput';
 import ToDoList from './elements/toDoList/toDoList';
 import styles from './App.module.css';
 
@@ -9,7 +9,9 @@ export default function App() {
 	//const [progressValue, setProgressValue] = useState(0)
 	const [itemTitle, setItemTitle] = useState('');
 	const [itemDesc, setItemDesc] = useState('');
-	const [toDoItems, setToDoItems] = useState([]);
+	const [shownItems, setShownItems] = useState([]);
+	const [doneItems, setDoneItems] = useState([]);
+	const [undoneItems, setUndoneItems] = useState([]);
 
 	const onSave = useCallback(async () => {
 		let valueToSave = {};
@@ -18,7 +20,7 @@ export default function App() {
 			if (itemDesc) {
 				valueToSave.description = itemDesc;
 			}
-			setToDoItems((prev) => [...prev, valueToSave]);
+			setShownItems((prev) => [...prev, valueToSave]);
 			setItemTitle('');
 			setItemDesc('');
 			try {
@@ -30,23 +32,34 @@ export default function App() {
 		}
 	}, [itemDesc, itemTitle]);
 
-	/* 	const onDelete = useCallback(async (item) => {
-		setToDoItems((items) => items.filter((i) => i !== item));
+	const onDelete = useCallback(async (item) => {
+		setShownItems((items) => items.filter((i) => i !== item));
 		try {
 			await deleteRequest(item._id);
 		} catch (err) {
 			console.error(err);
 			throw err;
 		}
-	}, []); */
+	}, []);
 
 	useEffect(() => {
 		async function loadData() {
-			const res = await getRequest('/');
-			setToDoItems(res);
+			const res = await getRequest('/'); //try catch or then missing
+			const dones = [];
+			const undones = [];
+			for (let e of res) {
+				if (e.done) {
+					dones.push(e);
+				} else {
+					undones.push(e);
+				}
+			}
+			setDoneItems(dones);
+			setUndoneItems(undones);
+			setShownItems([...dones, ...undones]);
 		}
 		loadData();
-	}, [onSave /* onDelete */]);
+	}, [onSave, onDelete]);
 
 	function onTitleChange(event) {
 		setItemTitle(event.target.value);
@@ -57,13 +70,15 @@ export default function App() {
 
 	return (
 		<div className={styles.container}>
-			<div className={styles.input_div}>
-				<Input onTitleChange={onTitleChange} onDescChange={onDescChange} itemTitle={itemTitle} itemDesc={itemDesc} />
+			<div className={styles.input_container}>
+				<ToDoInput onTitleChange={onTitleChange} onDescChange={onDescChange} itemTitle={itemTitle} itemDesc={itemDesc} />
 				<button className={styles.button} onClick={onSave}>
 					Save !
 				</button>
 			</div>
-			<ToDoList items={toDoItems} />
+			<div className={styles.todolist_container}>
+				<ToDoList items={shownItems} setShownItems={setShownItems} undoneItems={undoneItems} doneItems={doneItems} deleteItems={onDelete} />
+			</div>
 			{/* <ProgressBar barProgressValue={progressValue}/> */}
 		</div>
 	);

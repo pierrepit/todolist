@@ -22,16 +22,21 @@ export async function getItems() {
 	return await db.collection('items').find().toArray();
 }
 
-export async function getItem(id) {
+/* export async function getItem(id) {
 	return await db.collection('items').findOne({ _id: mongoDb.ObjectId(id) });
-}
+} */
 
 export async function createItem(item) {
 	const result = await db.collection('items').insertOne(item);
 	return result.insertedId;
 }
 
-export async function updateItem(id, fields = {}) {
+/* export async function updateItem(id, fields = {}) {
 	const result = await db.collection('items').findOneAndUpdate({ _id: mongoDb.ObjectId(id) }, fields);
 	return result;
+} */
+
+export async function deleteItem(id) {
+	const result = await db.collection('items').deleteOne({ _id: mongoDb.ObjectId(id) });
+	return { success: result.deletedCount === 1 };
 }
