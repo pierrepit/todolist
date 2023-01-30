@@ -7,31 +7,23 @@ import styles from './App.module.css';
 
 export default function App() {
 	//const [progressValue, setProgressValue] = useState(0)
-	const [itemTitle, setItemTitle] = useState('');
-	const [itemDesc, setItemDesc] = useState('');
-	const [itemDeadline, setItemDeadline] = useState('');
+	const [titleValue, setTitleValue] = useState('');
+	const [descriptionValue, setDescriptionValue] = useState('');
+	const [deadlineValue, setDeadlineValue] = useState();
 	const [shownItems, setShownItems] = useState([]);
 	const [doneFilter, setDoneFilter] = useState(0);
 
 	const onSave = useCallback(async () => {
-		if (itemTitle) {
+		if (titleValue) {
 			let valueToSave = {};
-			valueToSave.title = itemTitle;
+			valueToSave.title = titleValue;
 			valueToSave.done = false;
-			if (itemDesc) valueToSave.description = itemDesc;
-			if (itemDeadline) {
-				const conformDate = itemDeadline.match(/^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/); //eslint-disable-line no-useless-escape
-				if (conformDate) {
-					valueToSave.deadline = new Date(itemDeadline.slice(-4), itemDeadline.slice(3, 5) - 1, itemDeadline.slice(0, 2));
-					console.log(valueToSave);
-				} else {
-					alert('wrong date format!');
-				}
-			}
+			if (descriptionValue) valueToSave.description = descriptionValue;
+			if (deadlineValue && deadlineValue instanceof Date) valueToSave.deadline = deadlineValue;
 			setShownItems((prev) => [...prev, valueToSave]);
-			setItemTitle('');
-			setItemDesc('');
-			setItemDeadline('');
+			setTitleValue('');
+			setDescriptionValue('');
+			setDeadlineValue('');
 			try {
 				await postRequest('add', valueToSave);
 			} catch (err) {
@@ -39,7 +31,7 @@ export default function App() {
 				throw err;
 			}
 		}
-	}, [itemDesc, itemTitle, itemDeadline]);
+	}, [descriptionValue, titleValue, deadlineValue]);
 
 	const onDelete = useCallback(async (item) => {
 		setShownItems((items) => items.filter((i) => i !== item));
@@ -64,20 +56,27 @@ export default function App() {
 	}, [onSave, onDelete, doneFilter]);
 
 	function onTitleChange(event) {
-		setItemTitle(event.target.value);
+		setTitleValue(event.target.value);
 	}
-	function onDescChange(event) {
-		setItemDesc(event.target.value);
+	function onDescriptionChange(event) {
+		setDescriptionValue(event.target.value);
 	}
 
-	function onDeadlineChange(event) {
-		setItemDeadline(event.target.value);
+	function onDeadlineChange(date) {
+		setDeadlineValue(date);
 	}
 
 	return (
 		<div className={styles.container}>
 			<div className={styles.input_container}>
-				<ToDoInput onTitleChange={onTitleChange} onDescChange={onDescChange} onDeadlineChange={onDeadlineChange} itemTitle={itemTitle} itemDesc={itemDesc} itemDeadline={itemDeadline} />
+				<ToDoInput
+					onTitleChange={onTitleChange}
+					onDescriptionChange={onDescriptionChange}
+					onDeadlineChange={onDeadlineChange}
+					titleValue={titleValue}
+					descriptionValue={descriptionValue}
+					deadlineValue={deadlineValue}
+				/>
 				<button className={styles.button} onClick={onSave}>
 					Save !
 				</button>

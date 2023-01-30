@@ -1,21 +1,32 @@
-.input {
-    display: flex;
-    border: 1px solid grey
-}
-
 input {
-    border: none;
-    outline: none
+	border: none;
+	outline: none;
 }
 
-input[placeholder="Title..."] {
-    width: 7.5rem;
+.input {
+	display: flex;
+	border: 1px solid grey;
 }
 
-input[placeholder="Description..."] {
-    width: 15rem;
+.calendar_icon {
+	padding-left: 1rem;
+	cursor: pointer;
+}
+
+.datepicker {
+	position: absolute;
+	top: 4rem;
+	left: 18rem;
+}
+
+input[placeholder='Title...'] {
+	width: 7.5rem;
+}
+
+input[placeholder='Description...'] {
+	width: 15rem;
 }
 
 input::placeholder {
-    font-style: italic;
+	font-style: italic;
 }
