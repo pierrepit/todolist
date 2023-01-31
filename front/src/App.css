@@ -4,26 +4,27 @@
 	flex-direction: column;
 	margin: 0 1%;
 	padding: 0 1rem;
-	background-color: darkgrey;
+	background-color: #adb9a8;
 }
 
-.input_container {
+.container_input {
 	display: flex;
 	padding: var(--padding);
+	align-items: center;
 }
 
-.todolist_container {
+.container_todolist {
 	display: flex;
 	justify-content: center;
 	padding: var(--padding);
 }
 
-.button {
-	border: 3px;
-	border-radius: 4px;
-	margin: 1px;
+.button_save {
+	border: var(--border);
+	border-radius: 5px;
+	padding: 3px;
 	width: max-content;
-	background-color: #a1d088;
+	background-color: #8fb37c;
 	margin-left: 1rem;
 	cursor: pointer;
 }

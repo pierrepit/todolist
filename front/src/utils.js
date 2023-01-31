@@ -1,3 +1,5 @@
+import { useRef, useEffect } from 'react';
+
 const config = {
 	apiUrl: 'http://localhost:3001/items/',
 	clientUri: 'http://localhost:3000',
@@ -60,3 +62,23 @@ export function getFormatedDate(inputDate, format = 'DD/MM/YYYY') {
 
 	return format;
 }
+
+export const useOutsideClick = (callback) => {
+	const ref = useRef(null);
+
+	useEffect(() => {
+		const handleClick = (event) => {
+			if (ref.current && !ref.current.contains(event.target)) {
+				callback();
+			}
+		};
+
+		document.addEventListener('click', handleClick, true);
+
+		return () => {
+			document.removeEventListener('click', handleClick, true);
+		};
+	}, [ref, callback]);
+
+	return ref;
+};
