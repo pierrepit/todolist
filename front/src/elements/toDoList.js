@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faCheck } from '@fortawesome/free-solid-svg-icons';
 
 export default function ToDoList(props) {
 	return (
@@ -23,6 +23,9 @@ export default function ToDoList(props) {
 						<div className='todolist_categories'>{item.formatedDeadline}</div>
 						<div className='todolist_categories trash'>
 							<FontAwesomeIcon onClick={() => props.onDelete(item)} icon={faTrash} />
+						</div>
+						<div className='todolist_categories trash'>
+							<FontAwesomeIcon onClick={() => props.onDelete(item)} icon={faCheck} />
 						</div>
 					</div>
 				))}

@@ -30,7 +30,7 @@
 
 .todolist_entries {
 	display: grid;
-	grid-template-columns: 4fr 8fr 1fr 1fr;
+	grid-template-columns: 4fr 8fr 1fr 0.5fr 0.5fr;
 	border-bottom: 1px solid #b7d5a8;
 }
 
