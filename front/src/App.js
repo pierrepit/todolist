@@ -1,16 +1,18 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { getRequest, postRequest, deleteRequest, getFormatedDate } from './utils';
 //import ProgressBar from "./progressBar/progressBar";
-import ToDoInput from './elements/toDoInput';
-import ToDoList from './elements/toDoList';
+import ToDoInput from './commons/toDoInput/toDoInput';
+import ToDoList from './commons/toDoList/toDoList';
+import { Container, InputsWrapper, TodoWrapper, Title, SaveButton } from './App.styles';
 
 export default function App() {
 	//const [progressValue, setProgressValue] = useState(0)
 	const [titleValue, setTitleValue] = useState('');
 	const [descriptionValue, setDescriptionValue] = useState('');
 	const [deadlineValue, setDeadlineValue] = useState(new Date());
-	const [doneFilter, setDoneFilter] = useState(0);
 	const [data, setData] = useState([]);
+	const [doneFilter, setDoneFilter] = useState(0);
+	//const [showDialog, setShowDialog] = useState(false);
 
 	const onSave = useCallback(async () => {
 		if (titleValue) {
@@ -69,9 +71,16 @@ export default function App() {
 		setDeadlineValue(date);
 	}
 
+	/* 	function handleCheck(item) {
+		if (item.done) {
+			item.done = false;
+		} else item.done;
+	} */
+
 	return (
-		<div className='container'>
-			<div className='container_input'>
+		<Container>
+			<Title>Todolist</Title>
+			<InputsWrapper>
 				<ToDoInput
 					onTitleChange={onTitleChange}
 					onDescriptionChange={onDescriptionChange}
@@ -80,14 +89,12 @@ export default function App() {
 					descriptionValue={descriptionValue}
 					deadlineValue={deadlineValue}
 				/>
-				<button className='button_save' onClick={onSave}>
-					Save !
-				</button>
-			</div>
-			<div className='container_todolist'>
-				<ToDoList items={organizedData} onDelete={onDelete} setIndex={setDoneFilter} index={doneFilter} />
-			</div>
+				<SaveButton /* onClick={() => setShowDialog(true)} */>Save !</SaveButton>
+			</InputsWrapper>
+			<TodoWrapper>
+				<ToDoList items={organizedData} onDelete={onDelete} /* onModif={() => setShowDialog(true)} */ setIndex={setDoneFilter} /* onCheck={handleCheck} */ index={doneFilter} />
+			</TodoWrapper>
 			{/* <ProgressBar barProgressValue={progressValue}/> */}
-		</div>
+		</Container>
 	);
 }

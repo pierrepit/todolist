@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect /* , useCallback, useState */ } from 'react';
 
 const config = {
 	apiUrl: 'http://localhost:3001/items/',
@@ -68,7 +68,7 @@ export const useOutsideClick = (callback) => {
 
 	useEffect(() => {
 		const handleClick = (event) => {
-			if (ref.current && !ref.current.contains(event.target)) {
+			if (!ref.current?.contains(event.target)) {
 				callback();
 			}
 		};
@@ -82,3 +82,11 @@ export const useOutsideClick = (callback) => {
 
 	return ref;
 };
+
+/* export function useElement() {
+	const [element, setElement] = useState(null);
+	const ref = useCallback((node) => {
+		if (node !== null) setElement(node);
+	}, []);
+	return [element, ref];
+} */
