@@ -12,7 +12,7 @@ export const Title = styled.h1`
 	height: 5rem;
 	padding-top: var(--spacing);
 	font-size: 4rem;
-	background-image: linear-gradient(to right, #66006e, #0014ff, #3ab7ff, #05dba6);
+	background-image: linear-gradient(to right, var(--col-dark), #0014ff, #3ab7ff, var(--col-light));
 	color: transparent;
 	background-clip: text;
 	-webkit-background-clip: text;
@@ -20,7 +20,7 @@ export const Title = styled.h1`
 
 export const SaveButton = styled(Button)`
 	&:active {
-		background-color: var(--bg-dark);
+		background-color: var(--col-dark);
 	}
 	margin: var(--spacing-sm);
 `;

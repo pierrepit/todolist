@@ -71,11 +71,10 @@ export default function App() {
 		setDeadlineValue(date);
 	}
 
-	/* 	function handleCheck(item) {
-		if (item.done) {
-			item.done = false;
-		} else item.done;
-	} */
+	async function handleCheck(item) {
+		/* const res =  */ await postRequest('update/' + item._id, { done: !item.done }); //try catch or then missing
+		/* if (res.ok) {} */
+	}
 
 	return (
 		<Container>
@@ -92,7 +91,7 @@ export default function App() {
 				<SaveButton /* onClick={() => setShowDialog(true)} */>Save !</SaveButton>
 			</InputsWrapper>
 			<TodoWrapper>
-				<ToDoList items={organizedData} onDelete={onDelete} /* onModif={() => setShowDialog(true)} */ setIndex={setDoneFilter} /* onCheck={handleCheck} */ index={doneFilter} />
+				<ToDoList items={organizedData} onDelete={onDelete} /* onModif={() => setShowDialog(true)} */ setIndex={setDoneFilter} onCheck={handleCheck} index={doneFilter} />
 			</TodoWrapper>
 			{/* <ProgressBar barProgressValue={progressValue}/> */}
 		</Container>

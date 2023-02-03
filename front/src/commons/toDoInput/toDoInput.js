@@ -28,7 +28,7 @@ export default function ToDoInput({ onTitleChange, onDescriptionChange, onDeadli
 	return (
 		<>
 			<InputBox>
-				<FontAwesomeIcon icon={faArrowAltCircleRight} color='white' size='lg' />
+				<FontAwesomeIcon icon={faArrowAltCircleRight} color='#dcf9f1' size='lg' />
 				<UserInput autoFocus placeholder='Title...' required={true} onChange={onTitleChange} value={title} />
 				<UserInput placeholder='Description...' onChange={onDescriptionChange} value={description} />
 			</InputBox>

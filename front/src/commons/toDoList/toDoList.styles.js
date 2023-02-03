@@ -22,9 +22,9 @@ export const FilterButton = styled(Button)`
 	${({ active }) =>
 		active &&
 		`
-		background-color: var(--bg-dark);
+		background-color: var(--col-dark);
 		&:hover {
-			background-color: var(--bg-dark);
+			background-color: var(--col-dark);
 	}`}
 `;
 
@@ -32,7 +32,7 @@ export const TodoEntries = styled.div`
 	 {
 		display: grid;
 		grid-template-columns: 2.5fr 9fr 2.5fr 0.5fr 0.5fr;
-		border-bottom: 1px solid var(--fg-aux);
+		border-bottom: 1px solid var(--col-aux);
 		&:last-child {
 			border-bottom: none;
 		}
@@ -55,7 +55,8 @@ export const TodoCategory = styled.div`
 			cursor: pointer;
 		}
 		&:first-of-type {
-			font-weight: bold;
+			cursor: pointer;
+			color: var(--col-light);
 		}
 	}
 `;

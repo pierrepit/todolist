@@ -31,10 +31,10 @@ export async function createItem(item) {
 	return result.insertedId;
 }
 
-/* export async function updateItem(id, fields = {}) {
-	const result = await db.collection('items').findOneAndUpdate({ _id: mongoDb.ObjectId(id) }, fields);
+export async function updateItem(id, fields = {}) {
+	const result = await db.collection('items').findOneAndUpdate({ _id: mongoDb.ObjectId(id) }, { $set: fields });
 	return result;
-} */
+}
 
 export async function deleteItem(id) {
 	const result = await db.collection('items').deleteOne({ _id: mongoDb.ObjectId(id) });

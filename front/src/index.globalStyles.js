@@ -13,15 +13,15 @@ const GlobalStyle = createGlobalStyle`
 	--spacing-l: 4rem;
 	--spacing: 2rem;
 	--spacing-sm: 1rem;
-	--fg: #200648;
-	--fg-aux: #402962;
-	--bg-dark: #260b4c;
-	--bg-light: #90b9e1;
-	--border: 3px solid var(--fg);
+	--col: #200648;
+	--col-aux: #402962;
+	--col-dark: #260b4c;
+	--col-light: #dcf9f1;
+	--border: 3px solid #200648;
 	--border-radius-lg: 25px;
 	--border-radius-sm: 5px;
     font-size: 16px;
-	color: var(--fg);
+	color: var(--col);
 	line-height: 24px;
 	color-scheme: dark;
 	background: -moz-radial-gradient(center, ellipse cover,  #90b9e1 8%, #260b4c 100%); /* FF3.6-15 */
@@ -40,12 +40,12 @@ body {
 export const Input = styled.input`
 	 {
 		font-size: 1rem;
-		color: var(--fg);
+		color: var(--col);
 		border: var(--border);
 		height: 1.5rem;
 		background-color: inherit;
 		&::placeholder {
-			color: var(--fg-aux);
+			color: var(--col-aux);
 			font-style: italic;
 		}
 	}
@@ -60,8 +60,9 @@ export const Button = styled.button`
 	cursor: pointer;
 	white-space: nowrap;
 	min-width: max-content;
+	color: var(--col-light);
 	&:hover {
-		background-color: var(--bg-light);
+		background-color: var(--col-aux);
 	}
 `;
 
