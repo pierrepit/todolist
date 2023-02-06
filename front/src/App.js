@@ -3,11 +3,13 @@ import { getRequest, postRequest, deleteRequest, getFormatedDate } from './utils
 //import ProgressBar from "./progressBar/progressBar";
 import ToDoInput from './commons/toDoInput/toDoInput';
 import ToDoList from './commons/toDoList/toDoList';
-import ModifWindow from './commons/modifWindow/modifWindow';
+import ModifWindow from './commons/Window/modifWindow';
 import { Container, InputsWrapper, TodoWrapper, Title, SaveButton } from './App.styles';
 
 export default function App() {
 	//const [progressValue, setProgressValue] = useState(0)
+	const [data, setData] = useState([]);
+	const [isModifsToFetch, setIsModifsToFetch] = useState(false);
 	const [titleValue, setTitleValue] = useState('');
 	const [descriptionValue, setDescriptionValue] = useState('');
 	const [deadlineValue, setDeadlineValue] = useState(new Date());
@@ -48,26 +50,28 @@ export default function App() {
 		}
 	}, []);
 
-	const onModif = useCallback(async (id, field) => {
-		const res = await postRequest('update/' + id, field);
-		if (res.ok) setShowDialog(false);
-	}, []);
-
-	const onCheck = useCallback(async (item) => {
-		/* const res =  */ await postRequest('update/' + item._id, { status: !item.status }); //try catch or then missing
-		/* if (res.ok) {} */
-	}, []);
+	const onModif = useCallback(
+		async (item, field) => {
+			const res = await postRequest('update/' + item._id, field); //try catch or then missing
+			if (res.ok) {
+				setIsModifsToFetch(true);
+				if (showDialog) setShowDialog(false);
+			}
+		},
+		[showDialog]
+	);
 
 	useEffect(() => {
 		async function loadData() {
 			const res = await getRequest('/'); //try catch or then missing
-			for (let e of res) e.formatedDeadline = getFormatedDate(e.deadline);
 			setData(res);
 		}
 		loadData();
-	}, [onSave, onDelete]);
+	}, [isModifsToFetch]);
 
 	const organizedData = useMemo(() => {
+		if (!data) return;
+		for (let d of data) d.formatedDeadline = getFormatedDate(d.deadline);
 		data.sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
 		if (doneFilter === 1) return data.filter((e) => e.status);
 		else if (doneFilter === 2) return data.filter((e) => !e.status);
@@ -112,7 +116,7 @@ export default function App() {
 						onDelete={onDelete}
 						handleModif={(item) => handleModif(item)}
 						setIndex={setDoneFilter}
-						onCheck={onCheck}
+						onModif={onModif}
 						index={doneFilter}
 					/>
 				</TodoWrapper>
