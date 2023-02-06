@@ -13,20 +13,20 @@ export default function ToDoList(props) {
 					Done
 				</FilterButton>
 				<FilterButton active={props.index === 2} onClick={() => props.setIndex(2)}>
-					Not done
+					Yet to do
 				</FilterButton>
 			</FilterBox>
 			{props.items.length > 0 &&
 				props.items.map((item, key) => (
 					<TodoEntries key={key}>
-						<TodoCategory>{item.title}</TodoCategory>
+						<TodoCategory onClick={() => props.handleModif(item)}>{item.title}</TodoCategory>
 						<TodoCategory>{item.description}</TodoCategory>
 						<TodoCategory>{item.formatedDeadline}</TodoCategory>
 						<TodoCategory className='icon'>
 							<FontAwesomeIcon onClick={() => props.onDelete(item)} icon={faTrash} />
 						</TodoCategory>
 						<TodoCategory className='icon'>
-							<FontAwesomeIcon onClick={() => props.onCheck(item)} icon={faCheck} />
+							<FontAwesomeIcon onClick={() => props.onModif(item)} icon={faCheck} />
 						</TodoCategory>
 					</TodoEntries>
 				))}

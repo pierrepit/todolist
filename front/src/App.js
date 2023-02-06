@@ -3,6 +3,7 @@ import { getRequest, postRequest, deleteRequest, getFormatedDate } from './utils
 //import ProgressBar from "./progressBar/progressBar";
 import ToDoInput from './commons/toDoInput/toDoInput';
 import ToDoList from './commons/toDoList/toDoList';
+import ModifWindow from './commons/modifWindow/modifWindow';
 import { Container, InputsWrapper, TodoWrapper, Title, SaveButton } from './App.styles';
 
 export default function App() {
@@ -10,29 +11,32 @@ export default function App() {
 	const [titleValue, setTitleValue] = useState('');
 	const [descriptionValue, setDescriptionValue] = useState('');
 	const [deadlineValue, setDeadlineValue] = useState(new Date());
-	const [data, setData] = useState([]);
 	const [doneFilter, setDoneFilter] = useState(0);
-	//const [showDialog, setShowDialog] = useState(false);
+	const [selectedItem, setSelectedItem] = useState();
+	const [showDialog, setShowDialog] = useState(false);
 
-	const onSave = useCallback(async () => {
-		if (titleValue) {
-			let valueToSave = {};
-			valueToSave.title = titleValue;
-			valueToSave.done = false;
-			if (descriptionValue) valueToSave.description = descriptionValue;
-			valueToSave.deadline = deadlineValue instanceof Date ? deadlineValue : new Date();
-			setData((prev) => [...prev, valueToSave]);
-			setTitleValue('');
-			setDescriptionValue('');
-			setDeadlineValue(new Date());
-			try {
-				await postRequest('add', valueToSave);
-			} catch (err) {
-				console.error(err);
-				throw err;
+	const onSave = useCallback(
+		async (/* item */) => {
+			if (titleValue) {
+				let valueToSave = {};
+				valueToSave.title = /* item.title */ titleValue;
+				valueToSave.status = false;
+				if (descriptionValue) valueToSave.description = /*  item.description */ descriptionValue;
+				valueToSave.deadline = /* item.deadline */ deadlineValue instanceof Date ? /* item.deadline */ deadlineValue : new Date();
+				setData((prev) => [...prev, valueToSave]);
+				setTitleValue('');
+				setDescriptionValue('');
+				setDeadlineValue(new Date());
+				try {
+					await postRequest('add', valueToSave);
+				} catch (err) {
+					console.error(err);
+					throw err;
+				}
 			}
-		}
-	}, [descriptionValue, titleValue, deadlineValue]);
+		},
+		[descriptionValue, titleValue, deadlineValue]
+	);
 
 	const onDelete = useCallback(async (item) => {
 		setData((items) => items.filter((i) => i !== item));
@@ -42,6 +46,16 @@ export default function App() {
 			console.error(err);
 			throw err;
 		}
+	}, []);
+
+	const onModif = useCallback(async (id, field) => {
+		const res = await postRequest('update/' + id, field);
+		if (res.ok) setShowDialog(false);
+	}, []);
+
+	const onCheck = useCallback(async (item) => {
+		/* const res =  */ await postRequest('update/' + item._id, { status: !item.status }); //try catch or then missing
+		/* if (res.ok) {} */
 	}, []);
 
 	useEffect(() => {
@@ -55,14 +69,20 @@ export default function App() {
 
 	const organizedData = useMemo(() => {
 		data.sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
-		if (doneFilter === 1) return data.filter((e) => e.done);
-		else if (doneFilter === 2) return data.filter((e) => !e.done);
+		if (doneFilter === 1) return data.filter((e) => e.status);
+		else if (doneFilter === 2) return data.filter((e) => !e.status);
 		else return data;
 	}, [data, doneFilter]);
+
+	function handleModif(item) {
+		setSelectedItem(item);
+		setShowDialog(true);
+	}
 
 	function onTitleChange(event) {
 		setTitleValue(event.target.value);
 	}
+
 	function onDescriptionChange(event) {
 		setDescriptionValue(event.target.value);
 	}
@@ -71,29 +91,34 @@ export default function App() {
 		setDeadlineValue(date);
 	}
 
-	async function handleCheck(item) {
-		/* const res =  */ await postRequest('update/' + item._id, { done: !item.done }); //try catch or then missing
-		/* if (res.ok) {} */
-	}
-
 	return (
-		<Container>
-			<Title>Todolist</Title>
-			<InputsWrapper>
-				<ToDoInput
-					onTitleChange={onTitleChange}
-					onDescriptionChange={onDescriptionChange}
-					onDeadlineChange={onDeadlineChange}
-					titleValue={titleValue}
-					descriptionValue={descriptionValue}
-					deadlineValue={deadlineValue}
-				/>
-				<SaveButton /* onClick={() => setShowDialog(true)} */>Save !</SaveButton>
-			</InputsWrapper>
-			<TodoWrapper>
-				<ToDoList items={organizedData} onDelete={onDelete} /* onModif={() => setShowDialog(true)} */ setIndex={setDoneFilter} onCheck={handleCheck} index={doneFilter} />
-			</TodoWrapper>
-			{/* <ProgressBar barProgressValue={progressValue}/> */}
-		</Container>
+		<>
+			<Container>
+				<Title>Todolist</Title>
+				<InputsWrapper>
+					<ToDoInput
+						onTitleChange={onTitleChange}
+						onDescriptionChange={onDescriptionChange}
+						onDeadlineChange={onDeadlineChange}
+						titleValue={titleValue}
+						descriptionValue={descriptionValue}
+						deadlineValue={deadlineValue}
+					/>
+					<SaveButton onClick={() => onSave()} /*setShowDialog(true)*/>Save !</SaveButton>
+				</InputsWrapper>
+				<TodoWrapper>
+					<ToDoList
+						items={organizedData}
+						onDelete={onDelete}
+						handleModif={(item) => handleModif(item)}
+						setIndex={setDoneFilter}
+						onCheck={onCheck}
+						index={doneFilter}
+					/>
+				</TodoWrapper>
+				{showDialog && <ModifWindow item={selectedItem} onModif={onModif} onClose={() => setShowDialog(false)} />}
+				{/* <ProgressBar barProgressValue={progressValue}/> */}
+			</Container>
+		</>
 	);
 }

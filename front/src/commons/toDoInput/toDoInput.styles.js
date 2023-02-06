@@ -12,7 +12,7 @@ export const InputBox = styled.div`
 
 export const UserInput = styled(Input)`
 	outline: none;
-	padding-left: 10px;
+	padding-left: 0.5rem;
 	&[placeholder='Title...'] {
 		width: 7.5rem;
 		border-top-left-radius: var(--border-radius-lg);

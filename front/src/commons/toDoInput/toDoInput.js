@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowAltCircleRight } from '@fortawesome/free-regular-svg-icons';
 import { faCalendarDays } from '@fortawesome/free-solid-svg-icons';
 import Datepicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
 import { UserInput, InputBox, CalendarBox, CalendarInput, DatepickerBox } from './toDoInput.styles';
 
 export default function ToDoInput({ onTitleChange, onDescriptionChange, onDeadlineChange, titleValue, descriptionValue, deadlineValue }) {
@@ -33,7 +32,7 @@ export default function ToDoInput({ onTitleChange, onDescriptionChange, onDeadli
 				<UserInput placeholder='Description...' onChange={onDescriptionChange} value={description} />
 			</InputBox>
 			<CalendarBox>
-				<CalendarInput disabled onChange={onDescriptionChange} value={getFormatedDate(deadline)} />
+				<CalendarInput disabled value={getFormatedDate(deadline)} />
 				<div ref={ref} onClick={() => setIsCalendarOpen(!isCalendarOpen)}>
 					<FontAwesomeIcon icon={faCalendarDays} size='lg' />
 					{isCalendarOpen && (
