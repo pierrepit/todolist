@@ -1,16 +1,16 @@
 import { useState } from 'react';
 import { CalendarBox, DatepickerBox } from '../toDoInput/toDoInput.styles';
 import {
-	ModifWindowContainer,
-	CloseButton,
-	ModifWindowTitle,
-	ModifWindowEntries,
-	ModifWindowTop,
-	ModifWindowSpan,
-	ModifWindowInput,
-	ModifWindowSaveButton,
-	ModifWindowCalendarInput,
-} from './modifWindow.styles';
+	WindowContainer,
+	WindowCloseButton,
+	WindowTitle,
+	WindowEntries,
+	WindowTop,
+	WindowSpan,
+	WindowInput,
+	WindowButton,
+	WindowCalendarInput,
+} from './Window.styles';
 import Datepicker from 'react-datepicker';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarDays } from '@fortawesome/free-solid-svg-icons';
@@ -30,7 +30,7 @@ export default function ModifWindow({ item, onModif, onClose }) {
 		if (newDescription !== item.description) field.description = newDescription;
 		if (newDeadline !== item.deadline) field.deadline = newDeadline;
 		if (newStatus !== item.status) field.status = newStatus;
-		if (onModif && Object.keys(field).length > 0) onModif(item._id, field);
+		if (onModif && Object.keys(field).length > 0) onModif(item, field);
 	}
 
 	function handleDeadlineChange(date) {
@@ -39,19 +39,18 @@ export default function ModifWindow({ item, onModif, onClose }) {
 	}
 
 	return (
-		<ModifWindowContainer>
-			<ModifWindowTop>
-				<ModifWindowTitle>Modify todo item</ModifWindowTitle>
-				<CloseButton onClick={() => onClose()}>X</CloseButton>
-			</ModifWindowTop>
-			<ModifWindowEntries>
-				<ModifWindowSpan>Title</ModifWindowSpan>
-				<ModifWindowInput autoFocus onChange={(e) => setNewTitle(e.target.value)} value={newTitle} />
-				<ModifWindowSpan>Description</ModifWindowSpan>{' '}
-				<ModifWindowInput onChange={(e) => setNewDescription(e.target.value)} value={newDescription} />
-				<ModifWindowSpan>Deadline</ModifWindowSpan>
+		<WindowContainer>
+			<WindowTop>
+				<WindowTitle>Modify todo item</WindowTitle>
+				<WindowCloseButton onClick={() => onClose()}>X</WindowCloseButton>
+			</WindowTop>
+			<WindowEntries>
+				<WindowSpan>Title</WindowSpan>
+				<WindowInput autoFocus onChange={(e) => setNewTitle(e.target.value)} value={newTitle} />
+				<WindowSpan>Description</WindowSpan> <WindowInput onChange={(e) => setNewDescription(e.target.value)} value={newDescription} />
+				<WindowSpan>Deadline</WindowSpan>
 				<CalendarBox>
-					<ModifWindowCalendarInput disabled value={getFormatedDate(newDeadline)} />
+					<WindowCalendarInput disabled value={getFormatedDate(newDeadline)} />
 					<div ref={calendarRef} onClick={() => setIsCalendarOpen(!isCalendarOpen)}>
 						<FontAwesomeIcon icon={faCalendarDays} size='lg' color='#dcf9f1' />
 						{isCalendarOpen && (
@@ -61,16 +60,16 @@ export default function ModifWindow({ item, onModif, onClose }) {
 						)}
 					</div>
 				</CalendarBox>
-				<ModifWindowSpan>Status</ModifWindowSpan>
+				<WindowSpan>Status</WindowSpan>
 				<div>
-					<ModifWindowInput list='status' onChange={(e) => setNewStatus(e.target.value)} placeholder={newStatus ? 'done' : 'yet to do'} />
+					<WindowInput list='status' onChange={(e) => setNewStatus(e.target.value)} placeholder={newStatus ? 'done' : 'yet to do'} />
 					<datalist id='status'>
 						<option value='done' />
 						<option value='yet to do' />
 					</datalist>
 				</div>
-			</ModifWindowEntries>
-			<ModifWindowSaveButton onClick={() => handleChange()}>Save</ModifWindowSaveButton>
-		</ModifWindowContainer>
+			</WindowEntries>
+			<WindowButton onClick={() => handleChange()}>Save</WindowButton>
+		</WindowContainer>
 	);
 }

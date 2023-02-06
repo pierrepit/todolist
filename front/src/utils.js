@@ -1,4 +1,4 @@
-import { useRef, useEffect /* , useCallback, useState */ } from 'react';
+import { useRef, useEffect } from 'react';
 
 const config = {
 	apiUrl: 'http://localhost:3001/items/',
@@ -82,11 +82,3 @@ export const useOutsideClick = (callback) => {
 
 	return ref;
 };
-
-/* export function useElement() {
-	const [element, setElement] = useState(null);
-	const ref = useCallback((node) => {
-		if (node !== null) setElement(node);
-	}, []);
-	return [element, ref];
-} */
