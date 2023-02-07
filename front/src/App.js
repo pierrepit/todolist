@@ -67,16 +67,18 @@ export default function App() {
 	useEffect(() => {
 		async function loadData() {
 			const res = await getRequest('/'); //try catch or then missing
+			for (let e of res) e.formatedDeadline = getFormatedDate(e.deadline);
+			res.sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
 			setData(res);
 			setIsModifsToFetch(false);
 		}
 		loadData();
 	}, [isModifsToFetch]);
 
-	const organizedData = useMemo(() => {
-		if (!data) return;
-		for (let d of data) d.formatedDeadline = getFormatedDate(d.deadline);
-		data.sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
+	const filteredData = useMemo(() => {
+		if (!data || !data.length) return;
+		/* 		for (let e of data) e.formatedDeadline = getFormatedDate(e.deadline);
+			data.sort((a, b) => new Date(a.deadline) - new Date(b.deadline)); */
 		if (doneFilter === 1) return data.filter((e) => e.status);
 		else if (doneFilter === 2) return data.filter((e) => !e.status);
 		else return data;
@@ -128,7 +130,7 @@ export default function App() {
 				</InputsWrapper>
 				<TodoWrapper>
 					<ToDoList
-						items={organizedData}
+						items={filteredData}
 						handleDelete={(item) => handleDelete(item)}
 						handleModif={(item) => handleModif(item)}
 						setIndex={setDoneFilter}

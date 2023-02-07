@@ -5,7 +5,6 @@ import { TodoContainer, FilterBox, FilterButton, TodoEntries, TodoCategory } fro
 export default function ToDoList(props) {
 	async function onCheck(item) {
 		if (props.onModif) {
-			console.log(item);
 			await props.onModif(item, { status: !item.status });
 		}
 	}
@@ -30,10 +29,10 @@ export default function ToDoList(props) {
 						<TodoCategory>{item.description}</TodoCategory>
 						<TodoCategory>{item.formatedDeadline}</TodoCategory>
 						<TodoCategory className='icon'>
-							<FontAwesomeIcon onClick={() => props.handleDelete(item)} icon={faTrash} />
+							<FontAwesomeIcon onClick={() => onCheck(item)} icon={item.status ? faCheck : faBan} />
 						</TodoCategory>
 						<TodoCategory className='icon'>
-							<FontAwesomeIcon onClick={() => onCheck(item)} icon={item.status ? faCheck : faBan} />
+							<FontAwesomeIcon onClick={() => props.handleDelete(item)} icon={faTrash} />
 						</TodoCategory>
 					</TodoEntries>
 				))}
