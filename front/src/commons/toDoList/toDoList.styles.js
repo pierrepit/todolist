@@ -31,13 +31,13 @@ export const FilterButton = styled(Button)`
 export const TodoEntries = styled.div`
 	 {
 		display: grid;
-		grid-template-columns: 2.5fr 9fr 2.5fr 0.5fr 0.5fr;
+		grid-template-columns: 2.5fr 8.5fr 2.5fr 0.75fr 0.75fr;
 		border-bottom: 1px solid var(--col-aux);
 		&:last-child {
 			border-bottom: none;
 		}
 		@media (max-width: 984px) {
-			grid-template-columns: 3.5fr 6fr 3.5fr 1fr 1fr;
+			grid-template-columns: 3.5fr 7fr 3fr 0.75fr 0.75fr;
 		}
 	}
 `;
