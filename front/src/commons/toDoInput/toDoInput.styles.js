@@ -1,7 +1,9 @@
 import styled from 'styled-components';
 import { Input } from '../../index.globalStyles';
 
-export const InputBox = styled.div`
+export const InputBox = styled.div.attrs({
+	'data-id': 'InputBox',
+})`
 	 {
 		display: flex;
 		align-items: center;
@@ -10,7 +12,9 @@ export const InputBox = styled.div`
 	}
 `;
 
-export const UserInput = styled(Input)`
+export const UserInput = styled(Input).attrs({
+	'data-id': 'UserInput',
+})`
 	outline: none;
 	padding-left: var(--spacing-xsm);
 	&[placeholder='Title...'] {
@@ -28,7 +32,9 @@ export const UserInput = styled(Input)`
 	}
 `;
 
-export const CalendarBox = styled.div`
+export const CalendarBox = styled.div.attrs({
+	'data-id': 'CalendarBox',
+})`
 	display: flex;
 	align-items: center;
 	gap: var(--spacing-xsm);
@@ -36,14 +42,18 @@ export const CalendarBox = styled.div`
 	cursor: pointer;
 `;
 
-export const CalendarInput = styled(Input)`
+export const CalendarInput = styled(Input).attrs({
+	'data-id': 'CalendarInput',
+})`
 	outline: none;
 	width: 6rem;
 	text-align: center;
 	border-radius: var(--border-radius-lg);
 `;
 
-export const DatepickerBox = styled.div`
+export const DatepickerBox = styled.div.attrs({
+	'data-id': 'DatepickerBox',
+})`
 	position: absolute;
 	top: 11rem;
 `;

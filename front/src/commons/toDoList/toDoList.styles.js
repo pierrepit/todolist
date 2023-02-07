@@ -12,12 +12,16 @@ export const TodoContainer = styled.div`
 	gap: 0.25rem;
 `;
 
-export const FilterBox = styled.div`
+export const FilterBox = styled.div.attrs({
+	'data-id': 'FilterBox',
+})`
 	display: flex;
 	justify-content: space-evenly;
 `;
 
-export const FilterButton = styled(Button)`
+export const FilterButton = styled(Button).attrs({
+	'data-id': 'FilterButton',
+})`
 	margin: 0 var(--spacing) var(--spacing-l) var(--spacing);
 	${({ active }) =>
 		active &&
@@ -28,7 +32,9 @@ export const FilterButton = styled(Button)`
 	}`}
 `;
 
-export const TodoEntries = styled.div`
+export const TodoEntries = styled.div.attrs({
+	'data-id': 'TodoEntries',
+})`
 	 {
 		display: grid;
 		grid-template-columns: 2.5fr 8.5fr 2.5fr 0.75fr 0.75fr;
@@ -42,7 +48,9 @@ export const TodoEntries = styled.div`
 	}
 `;
 
-export const TodoCategory = styled.div`
+export const TodoCategory = styled.div.attrs({
+	'data-id': 'TodoCategory',
+})`
 	 {
 		white-space: nowrap;
 		text-overflow: ellipsis;

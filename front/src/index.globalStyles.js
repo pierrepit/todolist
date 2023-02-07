@@ -38,7 +38,9 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 }
 `;
-export const Input = styled.input`
+export const Input = styled.input.attrs({
+	'data-id': 'Input',
+})`
 	 {
 		font-size: 1rem;
 		color: var(--col);
@@ -52,7 +54,9 @@ export const Input = styled.input`
 	}
 `;
 
-export const Button = styled.button`
+export const Button = styled.button.attrs({
+	'data-id': 'Button',
+})`
 	border: var(--border);
 	border-radius: var(--border-radius-sm);
 	font-size: 1.25rem;
