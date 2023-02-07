@@ -3,8 +3,11 @@ import { faTrash, faCheck, faBan } from '@fortawesome/free-solid-svg-icons';
 import { TodoContainer, FilterBox, FilterButton, TodoEntries, TodoCategory } from './toDoList.styles';
 
 export default function ToDoList(props) {
-	function onCheck(item) {
-		if (props.onModif) props.onModif(item._id, { status: !item.status });
+	async function onCheck(item) {
+		if (props.onModif) {
+			console.log(item);
+			await props.onModif(item, { status: !item.status });
+		}
 	}
 
 	return (
@@ -27,7 +30,7 @@ export default function ToDoList(props) {
 						<TodoCategory>{item.description}</TodoCategory>
 						<TodoCategory>{item.formatedDeadline}</TodoCategory>
 						<TodoCategory className='icon'>
-							<FontAwesomeIcon onClick={() => props.onDelete(item)} icon={faTrash} />
+							<FontAwesomeIcon onClick={() => props.handleDelete(item)} icon={faTrash} />
 						</TodoCategory>
 						<TodoCategory className='icon'>
 							<FontAwesomeIcon onClick={() => onCheck(item)} icon={item.status ? faCheck : faBan} />

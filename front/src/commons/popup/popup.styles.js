@@ -1,24 +1,27 @@
 import styled from 'styled-components';
+import { SaveButton } from '../../App.styles';
 import { Button, Input } from '../../index.globalStyles';
 import { CalendarInput } from '../toDoInput/toDoInput.styles';
 
-export const WindowContainer = styled.div`
+export const PopupContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	background-color: var(--col-dark);
 	border-radius: var(--border-radius-sm);
 	position: fixed;
-	top: 10rem;
+	top: 11rem;
 	z-index: 100;
+	color: var(--col-aux);
+	max-width: 23rem;
 `;
 
-export const WindowTop = styled.div`
+export const PopupTop = styled.div`
 	display: flex;
 	justify-content: space-between;
 	margin-bottom: var(--spacing-sm);
 `;
 
-export const WindowCloseButton = styled(Button)`
+export const PopupCloseButton = styled(Button)`
 	width: fit-content;
 	height: fit-content;
 	background-color: var(--col-light);
@@ -27,36 +30,39 @@ export const WindowCloseButton = styled(Button)`
 	padding: 1px 2px 0 2px;
 `;
 
-export const WindowSpan = styled.span`
-	color: var(--col-aux);
+export const PopupChildren = styled.span`
+	margin: 0 var(--spacing-sm) var(--spacing-sm) var(--spacing-sm);
+	& + ${SaveButton} {
+		margin-bottom: 0;
+	}
 `;
 
-export const WindowTitle = styled(WindowSpan)`
+export const PopupTitle = styled.div`
 	font-size: 1.25rem;
 	font-weight: bold;
-	margin-left: 0.5rem;
-	margin-top: 0.5rem;
+	margin-left: var(--spacing-xsm);
+	margin-top: var(--spacing-xsm);
+	padding: 0 var(--spacing-xsm);
 `;
 
-export const WindowEntries = styled.div`
+export const PopupInputsGrid = styled.div`
 	display: grid;
 	grid-template: repeat(4, 1fr) / 1fr 3fr;
 	gap: var(--spacing-sm);
-	margin: 0 var(--spacing-sm);
 `;
 
-export const WindowInput = styled(Input)`
+export const PopupInput = styled(Input)`
 	border-color: var(--col-light);
 	border-radius: var(--border-radius-lg);
 	color: var(--col-light);
-	padding-left: 0.5rem;
+	padding-left: var(--spacing-xsm);
 	&::placeholder {
 		font-style: normal;
 		color: var(--col-light);
 	}
 `;
 
-export const WindowButton = styled(Button)`
+export const PopupButton = styled(Button)`
 	background-color: var(--col-light);
 	width: fit-content;
 	color: var(--col);
@@ -67,7 +73,7 @@ export const WindowButton = styled(Button)`
 	}
 `;
 
-export const WindowCalendarInput = styled(CalendarInput)`
+export const PopupCalendarInput = styled(CalendarInput)`
 	border: 3px solid var(--col-light);
 	color: var(--col-light);
 `;

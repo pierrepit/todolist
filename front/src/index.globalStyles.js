@@ -13,6 +13,7 @@ const GlobalStyle = createGlobalStyle`
 	--spacing-l: 4rem;
 	--spacing: 2rem;
 	--spacing-sm: 1rem;
+	--spacing-xsm: 0.5rem;
 	--col: #200648;
 	--col-aux: #78798b;
 	--col-dark: #260b4c;

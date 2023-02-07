@@ -34,7 +34,7 @@ export async function deleteRequest(url) {
 		method: 'DELETE',
 	})
 		.then((response) => (response.ok ? response.json() : response.text()))
-		.catch((error) => console.log(error));
+		.catch((error) => console.error(error));
 	return res;
 }
 

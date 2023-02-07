@@ -12,7 +12,7 @@ export const InputBox = styled.div`
 
 export const UserInput = styled(Input)`
 	outline: none;
-	padding-left: 0.5rem;
+	padding-left: var(--spacing-xsm);
 	&[placeholder='Title...'] {
 		width: 7.5rem;
 		border-top-left-radius: var(--border-radius-lg);
@@ -31,7 +31,7 @@ export const UserInput = styled(Input)`
 export const CalendarBox = styled.div`
 	display: flex;
 	align-items: center;
-	gap: 0.5rem;
+	gap: var(--spacing-xsm);
 	margin-right: var(--spacing-l);
 	cursor: pointer;
 `;

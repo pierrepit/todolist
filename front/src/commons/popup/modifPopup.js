@@ -1,22 +1,13 @@
 import { useState } from 'react';
 import { CalendarBox, DatepickerBox } from '../toDoInput/toDoInput.styles';
-import {
-	WindowContainer,
-	WindowCloseButton,
-	WindowTitle,
-	WindowEntries,
-	WindowTop,
-	WindowSpan,
-	WindowInput,
-	WindowButton,
-	WindowCalendarInput,
-} from './Window.styles';
+import { PopupInput, PopupCalendarInput, PopupInputsGrid } from './popup.styles';
+import Popup from './popup';
 import Datepicker from 'react-datepicker';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarDays } from '@fortawesome/free-solid-svg-icons';
 import { getFormatedDate, useOutsideClick } from '../../utils';
 
-export default function ModifWindow({ item, onModif, onClose }) {
+export default function ModifPopup({ item, onModif, onClose }) {
 	const [newTitle, setNewTitle] = useState(item.title);
 	const [newDescription, setNewDescription] = useState(item.description);
 	const [newDeadline, setNewDeadline] = useState(item.deadline);
@@ -39,18 +30,14 @@ export default function ModifWindow({ item, onModif, onClose }) {
 	}
 
 	return (
-		<WindowContainer>
-			<WindowTop>
-				<WindowTitle>Modify todo item</WindowTitle>
-				<WindowCloseButton onClick={() => onClose()}>X</WindowCloseButton>
-			</WindowTop>
-			<WindowEntries>
-				<WindowSpan>Title</WindowSpan>
-				<WindowInput autoFocus onChange={(e) => setNewTitle(e.target.value)} value={newTitle} />
-				<WindowSpan>Description</WindowSpan> <WindowInput onChange={(e) => setNewDescription(e.target.value)} value={newDescription} />
-				<WindowSpan>Deadline</WindowSpan>
+		<Popup onValid={handleChange} validation='Save' onClose={onClose} title='Modify todo item'>
+			<PopupInputsGrid>
+				<span>Title</span>
+				<PopupInput autoFocus onChange={(e) => setNewTitle(e.target.value)} value={newTitle} />
+				<span>Description</span> <PopupInput onChange={(e) => setNewDescription(e.target.value)} value={newDescription} />
+				<span>Deadline</span>
 				<CalendarBox>
-					<WindowCalendarInput disabled value={getFormatedDate(newDeadline)} />
+					<PopupCalendarInput disabled value={getFormatedDate(newDeadline)} />
 					<div ref={calendarRef} onClick={() => setIsCalendarOpen(!isCalendarOpen)}>
 						<FontAwesomeIcon icon={faCalendarDays} size='lg' color='#dcf9f1' />
 						{isCalendarOpen && (
@@ -60,16 +47,15 @@ export default function ModifWindow({ item, onModif, onClose }) {
 						)}
 					</div>
 				</CalendarBox>
-				<WindowSpan>Status</WindowSpan>
+				<span>Status</span>
 				<div>
-					<WindowInput list='status' onChange={(e) => setNewStatus(e.target.value)} placeholder={newStatus ? 'done' : 'yet to do'} />
+					<PopupInput list='status' onChange={(e) => setNewStatus(e.target.value)} placeholder={newStatus ? 'done' : 'yet to do'} />
 					<datalist id='status'>
 						<option value='done' />
 						<option value='yet to do' />
 					</datalist>
 				</div>
-			</WindowEntries>
-			<WindowButton onClick={() => handleChange()}>Save</WindowButton>
-		</WindowContainer>
+			</PopupInputsGrid>
+		</Popup>
 	);
 }

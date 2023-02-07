@@ -3,45 +3,48 @@ import { getRequest, postRequest, deleteRequest, getFormatedDate } from './utils
 //import ProgressBar from "./progressBar/progressBar";
 import ToDoInput from './commons/toDoInput/toDoInput';
 import ToDoList from './commons/toDoList/toDoList';
-import ModifWindow from './commons/Window/modifWindow';
+import ModifPopup from './commons/popup/modifPopup';
+import Popup from './commons/popup/popup';
 import { Container, InputsWrapper, TodoWrapper, Title, SaveButton } from './App.styles';
 
 export default function App() {
-	//const [progressValue, setProgressValue] = useState(0)
 	const [data, setData] = useState([]);
-	const [isModifsToFetch, setIsModifsToFetch] = useState(false);
 	const [titleValue, setTitleValue] = useState('');
 	const [descriptionValue, setDescriptionValue] = useState('');
 	const [deadlineValue, setDeadlineValue] = useState(new Date());
 	const [doneFilter, setDoneFilter] = useState(0);
+	//const [progressValue, setProgressValue] = useState(0)
 	const [selectedItem, setSelectedItem] = useState();
-	const [showDialog, setShowDialog] = useState(false);
+	const [modifPopup, setModifPopup] = useState(false);
+	const [savePopup, setSavePopup] = useState(false);
+	const [voidSavePopup, setVoidSavePopup] = useState(false);
+	const [deletePopup, setDeletePopup] = useState(false);
+	const [isModifsToFetch, setIsModifsToFetch] = useState(false);
 
-	const onSave = useCallback(
-		async (/* item */) => {
-			if (titleValue) {
-				let valueToSave = {};
-				valueToSave.title = /* item.title */ titleValue;
-				valueToSave.status = false;
-				if (descriptionValue) valueToSave.description = /*  item.description */ descriptionValue;
-				valueToSave.deadline = /* item.deadline */ deadlineValue instanceof Date ? /* item.deadline */ deadlineValue : new Date();
-				setData((prev) => [...prev, valueToSave]);
-				setTitleValue('');
-				setDescriptionValue('');
-				setDeadlineValue(new Date());
-				try {
-					await postRequest('add', valueToSave);
-				} catch (err) {
-					console.error(err);
-					throw err;
-				}
+	const onSave = useCallback(async () => {
+		if (titleValue) {
+			let valueToSave = {};
+			valueToSave.title = titleValue;
+			valueToSave.status = false;
+			if (descriptionValue) valueToSave.description = descriptionValue;
+			valueToSave.deadline = deadlineValue instanceof Date ? deadlineValue : new Date();
+			setData((prev) => [...prev, valueToSave]);
+			setTitleValue('');
+			setDescriptionValue('');
+			setDeadlineValue(new Date());
+			setSavePopup(false);
+			try {
+				await postRequest('add', valueToSave);
+			} catch (err) {
+				console.error(err);
+				throw err;
 			}
-		},
-		[descriptionValue, titleValue, deadlineValue]
-	);
+		}
+	}, [descriptionValue, titleValue, deadlineValue]);
 
 	const onDelete = useCallback(async (item) => {
 		setData((items) => items.filter((i) => i !== item));
+		setDeletePopup(false);
 		try {
 			await deleteRequest(item._id);
 		} catch (err) {
@@ -55,16 +58,17 @@ export default function App() {
 			const res = await postRequest('update/' + item._id, field); //try catch or then missing
 			if (res.ok) {
 				setIsModifsToFetch(true);
-				if (showDialog) setShowDialog(false);
+				if (modifPopup) setModifPopup(false);
 			}
 		},
-		[showDialog]
+		[modifPopup]
 	);
 
 	useEffect(() => {
 		async function loadData() {
 			const res = await getRequest('/'); //try catch or then missing
 			setData(res);
+			setIsModifsToFetch(false);
 		}
 		loadData();
 	}, [isModifsToFetch]);
@@ -78,9 +82,21 @@ export default function App() {
 		else return data;
 	}, [data, doneFilter]);
 
+	function handleSave() {
+		if (!titleValue) setVoidSavePopup(true);
+		else {
+			setSavePopup(true);
+		}
+	}
+
+	function handleDelete(item) {
+		setSelectedItem(item);
+		setDeletePopup(true);
+	}
+
 	function handleModif(item) {
 		setSelectedItem(item);
-		setShowDialog(true);
+		setModifPopup(true);
 	}
 
 	function onTitleChange(event) {
@@ -108,19 +124,34 @@ export default function App() {
 						descriptionValue={descriptionValue}
 						deadlineValue={deadlineValue}
 					/>
-					<SaveButton onClick={() => onSave()} /*setShowDialog(true)*/>Save !</SaveButton>
+					<SaveButton onClick={handleSave}>Save !</SaveButton>
 				</InputsWrapper>
 				<TodoWrapper>
 					<ToDoList
 						items={organizedData}
-						onDelete={onDelete}
+						handleDelete={(item) => handleDelete(item)}
 						handleModif={(item) => handleModif(item)}
 						setIndex={setDoneFilter}
 						onModif={onModif}
 						index={doneFilter}
 					/>
 				</TodoWrapper>
-				{showDialog && <ModifWindow item={selectedItem} onModif={onModif} onClose={() => setShowDialog(false)} />}
+				{modifPopup && <ModifPopup item={selectedItem} onModif={onModif} onClose={() => setModifPopup(false)} />}
+				{voidSavePopup && (
+					<Popup title='No title detected' onClose={() => setVoidSavePopup(false)}>
+						<span>You need to give a title to any item you want to save into your todolist.</span>
+					</Popup>
+				)}
+				{savePopup && (
+					<Popup title='Save new item ?' onClose={() => setSavePopup(false)} onValid={() => onSave(selectedItem)} validation='Save'>
+						<span>You're about to save the following item: {titleValue}. Click below if you want to continue.</span>
+					</Popup>
+				)}
+				{deletePopup && (
+					<Popup title='Delete item ?' onClose={() => setDeletePopup(false)} onValid={() => onDelete(selectedItem)} validation='Delete'>
+						<span>You're about to delete the following item: {selectedItem.title}. Click below if you want to continue.</span>
+					</Popup>
+				)}
 				{/* <ProgressBar barProgressValue={progressValue}/> */}
 			</Container>
 		</>
