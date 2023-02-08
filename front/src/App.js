@@ -26,26 +26,28 @@ export default function App() {
 		setTitleValue('');
 		setDescriptionValue('');
 		setDeadlineValue(new Date());
-		setSavePopup(false);
 		try {
 			await postRequest('add', selectedItem);
 		} catch (err) {
 			console.error(err);
 			throw err;
 		}
+		setIsModifsToFetch(true);
 		setSelectedItem({});
+		setSavePopup(false);
 	}, [selectedItem]);
 
 	const onDelete = useCallback(async (item) => {
 		setData((items) => items.filter((i) => i !== item));
-		setDeletePopup(false);
 		try {
 			await deleteRequest(item._id);
 		} catch (err) {
 			console.error(err);
 			throw err;
 		}
+		setIsModifsToFetch(true);
 		setSelectedItem({});
+		setDeletePopup(false);
 	}, []);
 
 	const onModif = useCallback(
@@ -63,8 +65,6 @@ export default function App() {
 	useEffect(() => {
 		async function loadData() {
 			const res = await getRequest('/'); //try catch or then missing
-			for (let e of res) e.formatedDeadline = getFormatedDate(e.deadline);
-			res.sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
 			setData(res);
 			setIsModifsToFetch(false);
 		}
@@ -73,8 +73,8 @@ export default function App() {
 
 	const filteredData = useMemo(() => {
 		if (!data || !data.length) return;
-		/* 		for (let e of data) e.formatedDeadline = getFormatedDate(e.deadline);
-			data.sort((a, b) => new Date(a.deadline) - new Date(b.deadline)); */
+		for (let e of data) e.formatedDeadline = getFormatedDate(e.deadline);
+		data.sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
 		if (doneFilter === 1) return data.filter((e) => e.status);
 		else if (doneFilter === 2) return data.filter((e) => !e.status);
 		else return data;
@@ -86,7 +86,7 @@ export default function App() {
 			let valueToSave = {};
 			valueToSave.title = titleValue;
 			valueToSave.status = false;
-			if (descriptionValue) valueToSave.description = descriptionValue;
+			valueToSave.description = descriptionValue ? descriptionValue : '';
 			valueToSave.deadline = deadlineValue instanceof Date ? deadlineValue : new Date();
 			setSelectedItem(valueToSave);
 			setSavePopup(true);
@@ -140,31 +140,19 @@ export default function App() {
 						index={doneFilter}
 					/>
 				</TodoWrapper>
-				{modifPopup && <ModifPopup item={selectedItem} onModif={onModif} onClose={() => setModifPopup(false)} popupType='Save' />}
+				{modifPopup && <ModifPopup item={selectedItem} onClose={() => setModifPopup(false)} onValid={onModif} popupType='Modify' />}
 				{voidSavePopup && (
 					<Popup title='No title detected' onClose={() => setVoidSavePopup(false)}>
 						<span>You need to give a title to any item you want to save into your todolist.</span>
 					</Popup>
 				)}
 				{savePopup && (
-					<ModifPopup
-						title='Save new item ?'
-						item={selectedItem}
-						onClose={() => setSavePopup(false)}
-						onModif={() => onSave(selectedItem)}
-						popupType='Save'
-					>
+					<ModifPopup item={selectedItem} onClose={() => setSavePopup(false)} onValid={onSave} popupType='Save'>
 						<span>You're about to save the following item: {titleValue}. Click below if you want to continue.</span>
 					</ModifPopup>
 				)}
 				{deletePopup && (
-					<ModifPopup
-						title='Delete item ?'
-						item={selectedItem}
-						onClose={() => setDeletePopup(false)}
-						onModif={() => onDelete(selectedItem)}
-						popupType='Delete'
-					>
+					<ModifPopup item={selectedItem} onClose={() => setDeletePopup(false)} onValid={() => onDelete(selectedItem)} popupType='Delete'>
 						<span>You're about to delete the following item: {selectedItem.title}. Click below if you want to continue.</span>
 					</ModifPopup>
 				)}
