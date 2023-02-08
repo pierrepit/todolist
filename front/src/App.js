@@ -14,7 +14,7 @@ export default function App() {
 	const [deadlineValue, setDeadlineValue] = useState(new Date());
 	const [doneFilter, setDoneFilter] = useState(0);
 	//const [progressValue, setProgressValue] = useState(0)
-	const [selectedItem, setSelectedItem] = useState();
+	const [selectedItem, setSelectedItem] = useState({});
 	const [modifPopup, setModifPopup] = useState(false);
 	const [savePopup, setSavePopup] = useState(false);
 	const [voidSavePopup, setVoidSavePopup] = useState(false);
@@ -22,25 +22,19 @@ export default function App() {
 	const [isModifsToFetch, setIsModifsToFetch] = useState(false);
 
 	const onSave = useCallback(async () => {
-		if (titleValue) {
-			let valueToSave = {};
-			valueToSave.title = titleValue;
-			valueToSave.status = false;
-			if (descriptionValue) valueToSave.description = descriptionValue;
-			valueToSave.deadline = deadlineValue instanceof Date ? deadlineValue : new Date();
-			setData((prev) => [...prev, valueToSave]);
-			setTitleValue('');
-			setDescriptionValue('');
-			setDeadlineValue(new Date());
-			setSavePopup(false);
-			try {
-				await postRequest('add', valueToSave);
-			} catch (err) {
-				console.error(err);
-				throw err;
-			}
+		setData((prev) => [...prev, selectedItem]);
+		setTitleValue('');
+		setDescriptionValue('');
+		setDeadlineValue(new Date());
+		setSavePopup(false);
+		try {
+			await postRequest('add', selectedItem);
+		} catch (err) {
+			console.error(err);
+			throw err;
 		}
-	}, [descriptionValue, titleValue, deadlineValue]);
+		setSelectedItem({});
+	}, [selectedItem]);
 
 	const onDelete = useCallback(async (item) => {
 		setData((items) => items.filter((i) => i !== item));
@@ -51,6 +45,7 @@ export default function App() {
 			console.error(err);
 			throw err;
 		}
+		setSelectedItem({});
 	}, []);
 
 	const onModif = useCallback(
@@ -60,6 +55,7 @@ export default function App() {
 				setIsModifsToFetch(true);
 				if (modifPopup) setModifPopup(false);
 			}
+			setSelectedItem({});
 		},
 		[modifPopup]
 	);
@@ -87,6 +83,12 @@ export default function App() {
 	function handleSave() {
 		if (!titleValue) setVoidSavePopup(true);
 		else {
+			let valueToSave = {};
+			valueToSave.title = titleValue;
+			valueToSave.status = false;
+			if (descriptionValue) valueToSave.description = descriptionValue;
+			valueToSave.deadline = deadlineValue instanceof Date ? deadlineValue : new Date();
+			setSelectedItem(valueToSave);
 			setSavePopup(true);
 		}
 	}
@@ -138,21 +140,33 @@ export default function App() {
 						index={doneFilter}
 					/>
 				</TodoWrapper>
-				{modifPopup && <ModifPopup item={selectedItem} onModif={onModif} onClose={() => setModifPopup(false)} />}
+				{modifPopup && <ModifPopup item={selectedItem} onModif={onModif} onClose={() => setModifPopup(false)} popupType='Save' />}
 				{voidSavePopup && (
 					<Popup title='No title detected' onClose={() => setVoidSavePopup(false)}>
 						<span>You need to give a title to any item you want to save into your todolist.</span>
 					</Popup>
 				)}
 				{savePopup && (
-					<Popup title='Save new item ?' onClose={() => setSavePopup(false)} onValid={() => onSave(selectedItem)} validation='Save'>
+					<ModifPopup
+						title='Save new item ?'
+						item={selectedItem}
+						onClose={() => setSavePopup(false)}
+						onModif={() => onSave(selectedItem)}
+						popupType='Save'
+					>
 						<span>You're about to save the following item: {titleValue}. Click below if you want to continue.</span>
-					</Popup>
+					</ModifPopup>
 				)}
 				{deletePopup && (
-					<Popup title='Delete item ?' onClose={() => setDeletePopup(false)} onValid={() => onDelete(selectedItem)} validation='Delete'>
+					<ModifPopup
+						title='Delete item ?'
+						item={selectedItem}
+						onClose={() => setDeletePopup(false)}
+						onModif={() => onDelete(selectedItem)}
+						popupType='Delete'
+					>
 						<span>You're about to delete the following item: {selectedItem.title}. Click below if you want to continue.</span>
-					</Popup>
+					</ModifPopup>
 				)}
 				{/* <ProgressBar barProgressValue={progressValue}/> */}
 			</Container>

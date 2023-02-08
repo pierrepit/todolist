@@ -35,11 +35,12 @@ export const UserInput = styled(Input).attrs({
 export const CalendarBox = styled.div.attrs({
 	'data-id': 'CalendarBox',
 })`
+	width: fit-content;
 	display: flex;
 	align-items: center;
 	gap: var(--spacing-xsm);
 	margin-right: var(--spacing-l);
-	cursor: pointer;
+	cursor: ${(props) => (props.disabled ? 'default' : 'pointer')};
 `;
 
 export const CalendarInput = styled(Input).attrs({
