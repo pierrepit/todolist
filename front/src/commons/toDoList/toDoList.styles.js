@@ -37,13 +37,13 @@ export const TodoEntries = styled.div.attrs({
 })`
 	 {
 		display: grid;
-		grid-template-columns: 2.5fr 8.5fr 2.5fr 0.75fr 0.75fr;
+		grid-template-columns: 2.5fr 8.25fr 2.5fr 1fr 0.75fr;
 		border-bottom: 1px solid var(--col-aux);
 		&:last-child {
 			border-bottom: none;
 		}
 		@media (max-width: 984px) {
-			grid-template-columns: 3.5fr 7fr 3fr 0.75fr 0.75fr;
+			grid-template-columns: 3.5fr 6.75fr 3fr 1fr 0.75fr;
 		}
 	}
 `;
@@ -59,8 +59,9 @@ export const TodoCategory = styled.div.attrs({
 		width: 100%;
 		padding-left: 4px;
 		&.icon {
-			justify-self: flex-end;
 			cursor: pointer;
+			padding-left: var(--spacing-xsm);
+			width: fit-content;
 		}
 		&:first-of-type {
 			cursor: pointer;
