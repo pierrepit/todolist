@@ -15,7 +15,7 @@ const GlobalStyle = createGlobalStyle`
 	--spacing-sm: 1rem;
 	--spacing-xsm: 0.5rem;
 	--col: #200648;
-	--col-aux: #78798b;
+	--col-aux: #778f8c;
 	--col-dark: #260b4c;
 	--col-light: #dcf9f1;
 	--border: 3px solid #200648;
@@ -25,9 +25,9 @@ const GlobalStyle = createGlobalStyle`
 	color: var(--col);
 	line-height: 24px;
 	color-scheme: dark;
-	background: -moz-radial-gradient(center, ellipse cover,  #90b9e1 1%, #260b4c 90%); /* FF3.6-15 */
-	background: -webkit-radial-gradient(center, ellipse cover,  #90b9e1 1%,#260b4c 90%); /* Chrome10-25,Safari5.1-6 */
-	background: radial-gradient(ellipse at center,  #90b9e1 1%,#260b4c 90%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	background: -moz-radial-gradient(center, ellipse cover, #90b9e1 1%, #260b4c 98%); /* FF3.6-15 */
+	background: -webkit-radial-gradient(center, ellipse cover, #90b9e1 1%, #260b4c 98%); /* Chrome10-25,Safari5.1-6 */
+	background: radial-gradient(ellipse at center, #90b9e1 1%, #260b4c 98%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#90b9e1', endColorstr='#260b4c',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 }
 
