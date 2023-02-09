@@ -50,5 +50,5 @@ export const TodoWrapper = styled.div.attrs({
 })`
 	display: flex;
 	justify-content: center;
-	margin: var(--spacing) var(--spacing-xl) var(--spacing-xl) var(--spacing-xl);
+	margin: var(--spacing) var(--spacing-xl) var(--spacing-sm) var(--spacing-xl);
 `;

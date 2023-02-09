@@ -1,10 +1,10 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { getRequest, postRequest, deleteRequest, getFormatedDate } from './utils';
-//import ProgressBar from "./progressBar/progressBar";
 import ToDoInput from './commons/toDoInput/toDoInput';
 import ToDoList from './commons/toDoList/toDoList';
 import ModifPopup from './commons/popup/modifPopup';
 import Popup from './commons/popup/popup';
+import ProgressBar from './commons/progressBar/progressBar';
 import { Container, InputsWrapper, TodoWrapper, Title, SaveButton } from './App.styles';
 
 export default function App() {
@@ -13,7 +13,7 @@ export default function App() {
 	const [descriptionValue, setDescriptionValue] = useState('');
 	const [deadlineValue, setDeadlineValue] = useState(new Date());
 	const [doneFilter, setDoneFilter] = useState(0);
-	//const [progressValue, setProgressValue] = useState(0)
+	const [progressValue, setProgressValue] = useState(0);
 	const [selectedItem, setSelectedItem] = useState({});
 	const [modifPopup, setModifPopup] = useState(false);
 	const [savePopup, setSavePopup] = useState(false);
@@ -50,7 +50,7 @@ export default function App() {
 
 	const onModif = useCallback(
 		async (item, field) => {
-			const res = await postRequest('update/' + item._id, field); //try catch or then missing
+			const res = await postRequest('update/' + item._id, field);
 			if (res.ok) {
 				setIsModifsToFetch(true);
 				if (modifPopup) setModifPopup(false);
@@ -62,12 +62,18 @@ export default function App() {
 
 	useEffect(() => {
 		async function loadData() {
-			const res = await getRequest('/'); //try catch or then missing
+			const res = await getRequest('/');
 			setData(res);
 			setIsModifsToFetch(false);
 		}
 		loadData();
 	}, [isModifsToFetch]);
+
+	useEffect(() => {
+		if (!data || !data.length) return;
+		if (data.filter((e) => e.status).length > 0) setProgressValue(Math.round((100 * data.filter((e) => e.status).length) / data.length));
+		else setProgressValue(0);
+	}, [data]);
 
 	const filteredData = useMemo(() => {
 		if (!data || !data.length) return;
@@ -139,6 +145,7 @@ export default function App() {
 						index={doneFilter}
 					/>
 				</TodoWrapper>
+				<ProgressBar percentage={progressValue} />
 				{modifPopup && <ModifPopup item={selectedItem} onClose={() => setModifPopup(false)} onValid={onModif} popupType='Modify' />}
 				{voidSavePopup && (
 					<Popup title='No title detected' onClose={() => setVoidSavePopup(false)}>
@@ -155,7 +162,6 @@ export default function App() {
 						<span>You're about to delete the following item: {selectedItem.title}. Click below if you want to continue.</span>
 					</ModifPopup>
 				)}
-				{/* <ProgressBar barProgressValue={progressValue}/> */}
 			</Container>
 		</>
 	);
