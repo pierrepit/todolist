@@ -4,12 +4,23 @@ import { Button } from '../../index.globalStyles';
 export const TodoContainer = styled.div`
 	display: flex;
 	flex-direction: column;
-	max-width: 1000px;
 	padding: var(--spacing) var(--spacing-l) var(--spacing-l) var(--spacing-l);
 	border-radius: 0 100px 0 100px;
 	background-color: inherit;
 	border: var(--border);
 	gap: 0.25rem;
+	@media (min-width: 1200px) {
+		width: 1050px;
+	}
+	@media (max-width: 1199px) {
+		width: 850px;
+	}
+	@media (max-width: 955px) {
+		width: 650px;
+	}
+	@media (max-width: 767px) {
+		width: 450px;
+	}
 `;
 
 export const FilterBox = styled.div.attrs({
@@ -42,7 +53,7 @@ export const TodoEntries = styled.div.attrs({
 		&:last-child {
 			border-bottom: none;
 		}
-		@media (max-width: 984px) {
+		@media (max-width: 991px) {
 			grid-template-columns: 3.5fr 6.75fr 3fr 1fr 0.75fr;
 		}
 	}
