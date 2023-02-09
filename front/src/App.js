@@ -86,7 +86,7 @@ export default function App() {
 			valueToSave.title = titleValue;
 			valueToSave.status = false;
 			valueToSave.description = descriptionValue ? descriptionValue : '';
-			valueToSave.deadline = deadlineValue instanceof Date ? deadlineValue : new Date();
+			valueToSave.deadline = deadlineValue;
 			setSelectedItem(valueToSave);
 			setSavePopup(true);
 		}

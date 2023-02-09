@@ -22,16 +22,16 @@ export default function ToDoInput({ onTitleChange, onDescriptionChange, onDeadli
 				<UserInput autoFocus placeholder='Title...' required={true} onChange={onTitleChange} value={titleValue} />
 				<UserInput placeholder='Description...' onChange={onDescriptionChange} value={descriptionValue} />
 			</InputBox>
-			<CalendarBox>
+			<CalendarBox ref={ref}>
 				<CalendarInput disabled value={getFormatedDate(deadlineValue)} />
-				<div ref={ref} onClick={() => setIsCalendarOpen(!isCalendarOpen)}>
+				<div onClick={() => setIsCalendarOpen(!isCalendarOpen)}>
 					<FontAwesomeIcon icon={faCalendarDays} size='lg' />
-					{isCalendarOpen && (
-						<DatepickerBox>
-							<Datepicker onSelect={(date) => handleDeadlineChange(date)} selected={deadlineValue} dateFormat='dd/MM/yyyy' inline />
-						</DatepickerBox>
-					)}
 				</div>
+				{isCalendarOpen && (
+					<DatepickerBox>
+						<Datepicker onSelect={(date) => handleDeadlineChange(date)} selected={deadlineValue} dateFormat='dd/MM/yyyy' inline />
+					</DatepickerBox>
+				)}
 			</CalendarBox>
 		</>
 	);

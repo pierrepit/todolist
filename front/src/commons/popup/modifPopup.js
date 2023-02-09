@@ -53,16 +53,21 @@ export default function ModifPopup({ item, onValid, onClose, popupType }) {
 				<span>Description</span>
 				<PopupInput disabled={popupType === 'Delete'} onChange={(e) => setNewDescription(e.target.value)} value={newDescription} />
 				<span>Deadline</span>
-				<CalendarBox disabled={popupType === 'Delete'}>
+				<CalendarBox disabled={popupType === 'Delete'} ref={calendarRef}>
 					<PopupCalendarInput disabled value={getFormatedDate(newDeadline)} />
-					<div ref={calendarRef} onClick={onCalendarClick}>
+					<div onClick={onCalendarClick}>
 						<FontAwesomeIcon icon={faCalendarDays} size='lg' color='#dcf9f1' />
-						{isCalendarOpen && (
-							<DatepickerBox>
-								<Datepicker onSelect={(date) => handleDeadlineChange(date)} dateFormat='dd/MM/yyyy' inline />
-							</DatepickerBox>
-						)}
 					</div>
+					{isCalendarOpen && (
+						<DatepickerBox>
+							<Datepicker
+								onSelect={(date) => handleDeadlineChange(date)}
+								selected={new Date(newDeadline)}
+								dateFormat='dd/MM/yyyy'
+								inline
+							/>
+						</DatepickerBox>
+					)}
 				</CalendarBox>
 				<span>Status</span>
 				<div>
