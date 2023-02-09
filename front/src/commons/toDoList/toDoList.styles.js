@@ -65,7 +65,7 @@ export const TodoCategory = styled.div.attrs({
 		}
 		&:first-of-type {
 			cursor: pointer;
-			color: var(--col-light);
+			color: ${(props) => (props.late ? 'red' : 'var(--col-light)')};
 		}
 	}
 `;

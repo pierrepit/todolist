@@ -22,7 +22,6 @@ export default function App() {
 	const [isModifsToFetch, setIsModifsToFetch] = useState(false);
 
 	const onSave = useCallback(async () => {
-		setData((prev) => [...prev, selectedItem]);
 		setTitleValue('');
 		setDescriptionValue('');
 		setDeadlineValue(new Date());
@@ -38,7 +37,6 @@ export default function App() {
 	}, [selectedItem]);
 
 	const onDelete = useCallback(async (item) => {
-		setData((items) => items.filter((i) => i !== item));
 		try {
 			await deleteRequest(item._id);
 		} catch (err) {
@@ -73,6 +71,7 @@ export default function App() {
 
 	const filteredData = useMemo(() => {
 		if (!data || !data.length) return;
+
 		for (let e of data) e.formatedDeadline = getFormatedDate(e.deadline);
 		data.sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
 		if (doneFilter === 1) return data.filter((e) => e.status);

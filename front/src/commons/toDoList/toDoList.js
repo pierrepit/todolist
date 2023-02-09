@@ -9,6 +9,14 @@ export default function ToDoList(props) {
 		}
 	}
 
+	function isLate(item) {
+		let late = false;
+		let date = new Date(item.deadline);
+		const _date = date.setDate(date.getDate() + 1);
+		if (new Date() > _date) late = true;
+		return late;
+	}
+
 	return (
 		<TodoContainer>
 			<FilterBox>
@@ -25,7 +33,9 @@ export default function ToDoList(props) {
 			{props.items?.length > 0 &&
 				props.items.map((item, key) => (
 					<TodoEntries key={key}>
-						<TodoCategory onClick={() => props.handleModif(item)}>{item.title}</TodoCategory>
+						<TodoCategory late={isLate(item)} onClick={() => props.handleModif(item)}>
+							{item.title}
+						</TodoCategory>
 						<TodoCategory>{item.description}</TodoCategory>
 						<TodoCategory>{item.formatedDeadline}</TodoCategory>
 						<TodoCategory className='icon'>
