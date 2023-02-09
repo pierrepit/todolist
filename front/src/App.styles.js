@@ -25,10 +25,10 @@ export const Title = styled.h1.attrs({
 export const SaveButton = styled(Button).attrs({
 	'data-id': 'SaveButton',
 })`
+	margin: var(--spacing-sm);
 	&:active {
 		background-color: var(--col-dark);
 	}
-	margin: var(--spacing-sm);
 `;
 
 export const InputsWrapper = styled.div.attrs({
@@ -38,7 +38,7 @@ export const InputsWrapper = styled.div.attrs({
 	align-items: center;
 	margin: 0 var(--spacing-xl);
 	flex-wrap: wrap;
-	@media (max-width: 990px) {
+	@media (max-width: 1000px) {
 		${SaveButton} {
 			margin-left: auto;
 		}

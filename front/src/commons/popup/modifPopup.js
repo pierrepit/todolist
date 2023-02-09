@@ -70,7 +70,7 @@ export default function ModifPopup({ item, onValid, onClose, popupType }) {
 					)}
 				</CalendarBox>
 				<span>Status</span>
-				<div>
+				<>
 					<PopupInput
 						list='status'
 						disabled={popupType === 'Delete'}
@@ -81,7 +81,7 @@ export default function ModifPopup({ item, onValid, onClose, popupType }) {
 						<option value='done' />
 						<option value='yet to do' />
 					</datalist>
-				</div>
+				</>
 			</PopupInputsGrid>
 		</Popup>
 	);
