@@ -27,6 +27,8 @@ export async function getItems() {
 } */
 
 export async function createItem(item) {
+	const mongoDate = new Date(item.deadline);
+	item.deadline = mongoDate;
 	const result = await db.collection('items').insertOne(item);
 	return result.insertedId;
 }
