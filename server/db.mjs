@@ -1,4 +1,3 @@
-import {} from 'dotenv/config';
 import * as mongoDb from 'mongodb';
 
 const uri = process.env.DATABASE_URL; // Atlas connexion
@@ -8,7 +7,7 @@ let db;
 export async function connect(url = uri, dbName = 'todolist') {
 	client = new mongoDb.MongoClient(url);
 	await client.connect();
-	console.log(`Connected to ${dbName} (${url})`);
+	console.log(`Connected to ${dbName}`);
 	db = client.db(dbName);
 }
 

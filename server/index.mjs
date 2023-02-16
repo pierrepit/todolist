@@ -1,8 +1,8 @@
 import express from 'express';
+import {} from 'dotenv/config'; //similar to : import * as dotenv from 'dotenv' then dotenv.config() -or dotenv/config ?
 //import * as path from 'path';
 import * as api from './api.mjs';
 import * as db from './db.mjs';
-import {} from 'dotenv/config'; //similar to : import * as dotenv from 'dotenv' then dotenv.config() -or dotenv/config ?
 import cors from 'cors';
 
 const app = express();
