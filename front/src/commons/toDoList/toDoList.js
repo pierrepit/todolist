@@ -31,8 +31,9 @@ export default function ToDoList(props) {
 				</FilterButton>
 			</FilterBox>
 			{props.items?.length > 0 &&
-				props.items.map((item, key) => (
-					<TodoEntries key={key}>
+				props.items.map((item) => (
+					<TodoEntries key={item._id}>
+						{/* using id here avoid to rerender memoized components if we sort or change list in any way, since key stay associated with same component */}
 						<TodoCategory late={isLate(item)} onClick={() => props.handleModif(item)}>
 							{item.title}
 						</TodoCategory>

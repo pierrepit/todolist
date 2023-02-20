@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { getRequest, postRequest, deleteRequest, getFormatedDate } from './utils';
 import ToDoInput from './commons/toDoInput/toDoInput';
 import ToDoList from './commons/toDoList/toDoList';
@@ -20,45 +20,6 @@ export default function App() {
 	const [voidSavePopup, setVoidSavePopup] = useState(false);
 	const [deletePopup, setDeletePopup] = useState(false);
 	const [isModifsToFetch, setIsModifsToFetch] = useState(false);
-
-	const onSave = useCallback(async () => {
-		setTitleValue('');
-		setDescriptionValue('');
-		setDeadlineValue(new Date());
-		try {
-			await postRequest('add', selectedItem);
-		} catch (err) {
-			console.error(err);
-			throw err;
-		}
-		setIsModifsToFetch(true);
-		setSelectedItem({});
-		setSavePopup(false);
-	}, [selectedItem]);
-
-	const onDelete = useCallback(async (item) => {
-		try {
-			await deleteRequest(item._id);
-		} catch (err) {
-			console.error(err);
-			throw err;
-		}
-		setIsModifsToFetch(true);
-		setSelectedItem({});
-		setDeletePopup(false);
-	}, []);
-
-	const onModif = useCallback(
-		async (item, field) => {
-			const res = await postRequest('update/' + item._id, field);
-			if (res.ok) {
-				setIsModifsToFetch(true);
-				if (modifPopup) setModifPopup(false);
-			}
-			setSelectedItem({});
-		},
-		[modifPopup]
-	);
 
 	useEffect(() => {
 		async function loadData() {
@@ -84,6 +45,42 @@ export default function App() {
 		else if (doneFilter === 2) return data.filter((e) => !e.status);
 		else return data;
 	}, [data, doneFilter]);
+
+	const onSave = async () => {
+		setTitleValue('');
+		setDescriptionValue('');
+		setDeadlineValue(new Date());
+		try {
+			await postRequest('add', selectedItem);
+		} catch (err) {
+			console.error(err);
+			throw err;
+		}
+		setIsModifsToFetch(true);
+		setSelectedItem({});
+		setSavePopup(false);
+	};
+
+	const onDelete = async (item) => {
+		try {
+			await deleteRequest(item._id);
+		} catch (err) {
+			console.error(err);
+			throw err;
+		}
+		setIsModifsToFetch(true);
+		setSelectedItem({});
+		setDeletePopup(false);
+	};
+
+	const onModif = async (item, field) => {
+		const res = await postRequest('update/' + item._id, field);
+		if (res.ok) {
+			setIsModifsToFetch(true);
+			if (modifPopup) setModifPopup(false);
+		}
+		setSelectedItem({});
+	};
 
 	function handleSave() {
 		if (!titleValue) setVoidSavePopup(true);
