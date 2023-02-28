@@ -1,6 +1,6 @@
 import * as mongoDb from 'mongodb';
 
-const uri = process.env.DATABASE_URL; // Atlas connexion
+const uri = process.env.DATABASE_PRODURL || process.env.DATABASE_DEVURL;
 let client;
 let db;
 
