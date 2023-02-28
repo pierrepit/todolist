@@ -1,13 +1,16 @@
 import { useRef, useEffect } from 'react';
 
 const config = {
-	apiUrl: 'http://localhost:3001/items/',
-	clientUri: 'http://localhost:3000',
+	devUrl: 'http://localhost:3001/items/',
+	apiUrl: 'https://todolist-api/onrender.com',
+	//clientUri: 'http://localhost:3000',
 	//wsUrl: 'ws://localhost:3001'
 };
 
 export async function getRequest(url) {
-	const fullUrl = url.toLowerCase().startsWith('http') ? url : config.apiUrl + url;
+	let fullUrl;
+	if (process.env.IN_PRODUCTION === 'true') fullUrl = url.toLowerCase().startsWith('https://') ? url : config.apiUrl + url;
+	else fullUrl = url.toLowerCase().startsWith('http//') ? url : config.devUrl + url;
 	const res = await fetch(fullUrl, {
 		method: 'GET',
 	})
@@ -17,7 +20,7 @@ export async function getRequest(url) {
 }
 
 export async function postRequest(url, data, contentType = 'application/json') {
-	const fullUrl = url.toLowerCase().startsWith('http') ? url : config.apiUrl + url;
+	const fullUrl = url.toLowerCase().startsWith('http') ? url : config.devUrl + url;
 	const res = await fetch(fullUrl, {
 		method: 'POST',
 		headers: { 'Content-Type': contentType },
@@ -29,7 +32,7 @@ export async function postRequest(url, data, contentType = 'application/json') {
 }
 
 export async function deleteRequest(url) {
-	const fullUrl = url.toLowerCase().startsWith('http') ? url : config.apiUrl + 'delete/' + url;
+	const fullUrl = url.toLowerCase().startsWith('http') ? url : config.devUrl + 'delete/' + url;
 	const res = await fetch(fullUrl, {
 		method: 'DELETE',
 	})
