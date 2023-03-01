@@ -17,7 +17,7 @@ await db.connect();
 app.use(cors());
 //app.use(express.urlencoded({ extended: true })); //useful for POST/PUT requests. Recognize incoming req as a String/Array. If extended, you can post nested objects.
 app.use(express.json()); //useful for POST/PUT requests. Recognize incoming req as a JSON
-app.use(express.static(path.join(__dirname, './front/build/index.html'))); //public = the front file where all the statics (including index.html) are
+app.use(express.static(path.join(__dirname, './front/build'))); //public = the front file where all the statics (including index.html) are
 app.use('/items', api.router); //better to put it after the router because it would cause a 404 ?? should items go before express.static ?
 
 //starts the Express server
