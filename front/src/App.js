@@ -23,7 +23,7 @@ export default function App() {
 
 	useEffect(() => {
 		async function loadData() {
-			const res = await getRequest('/');
+			const res = await getRequest('');
 			setData(res);
 			setIsModifsToFetch(false);
 		}
