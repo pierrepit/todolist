@@ -7,7 +7,7 @@
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"devstart": "concurrently \"cd server && npm run devstart\" \"cd front && npm start\" ",
 		"start": "node --experimental-modules server/index.mjs",
-		"build": "cd server && npm install && npm start  && cd ../front && npm install && npm start && npm run build"
+		"build": "cd server && npm install  && cd ../front && npm install && npm run build"
 	},
 	"repository": {
 		"type": "git",
