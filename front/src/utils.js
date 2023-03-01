@@ -2,14 +2,14 @@ import { useRef, useEffect } from 'react';
 
 const config = {
 	devUrl: 'http://localhost:3001/items/',
-	apiUrl: 'https://todolist-api/onrender.com',
+	apiUrl: 'https://todolist-api/onrender.com/items/',
 	//clientUri: 'http://localhost:3000',
 	//wsUrl: 'ws://localhost:3001'
 };
 
 export async function getRequest(url) {
 	let fullUrl;
-	if (process.env.PRODUCTION === 1) {
+	if (process.env.PRODUCTION === 'production') {
 		console.log('the fetch understands that we are in production');
 		fullUrl = url.toLowerCase().startsWith('https://') ? url : config.apiUrl + url;
 	} else fullUrl = url.toLowerCase().startsWith('http//') ? url : config.devUrl + url;
