@@ -9,10 +9,10 @@ const config = {
 
 export async function getRequest(url) {
 	let fullUrl;
-	/* if (process.env.PRODUCTION === 'production') {
+	if (process.env.PRODUCTION === 'production') {
 		console.log('the fetch understands that we are in production');
 		fullUrl = url.toLowerCase().startsWith('https://') ? url : config.apiUrl + url;
-	} else  */ fullUrl = url.toLowerCase().startsWith('https//') ? url : config.apiUrl + url;
+	} else fullUrl = url.toLowerCase().startsWith('http//') ? url : config.devUrl + url;
 	console.log(fullUrl);
 	const res = await fetch(fullUrl, {
 		method: 'GET',
