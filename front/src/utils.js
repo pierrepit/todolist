@@ -12,7 +12,7 @@ export async function getRequest(url) {
 	/* if (process.env.PRODUCTION === 'production') {
 		console.log('the fetch understands that we are in production');
 		fullUrl = url.toLowerCase().startsWith('https://') ? url : config.apiUrl + url;
-	} else  */ fullUrl = /* url.toLowerCase().startsWith('https//') ? url :  */ config.devUrl + url;
+	} else  */ fullUrl = /* url.toLowerCase().startsWith('https//') ? url :  */ config.apiUrl + url;
 	console.log(fullUrl);
 	const res = await fetch(fullUrl, {
 		method: 'GET',
