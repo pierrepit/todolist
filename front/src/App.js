@@ -63,7 +63,7 @@ export default function App() {
 
 	const onDelete = async (item) => {
 		try {
-			await deleteRequest(item._id);
+			await deleteRequest('delete/' + item._id);
 		} catch (err) {
 			console.error(err);
 			throw err;

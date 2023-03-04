@@ -10,9 +10,9 @@ const config = {
 export async function getRequest(url) {
 	let fullUrl;
 	/* if (process.env.PRODUCTION === 'production') {
-		console.log('the fetch understands that we are in production');
-		fullUrl = url.toLowerCase().startsWith('https://') ? url : config.apiUrl + url;
-	} else  */ fullUrl = /* url.toLowerCase().startsWith('https//') ? url :  */ config.apiUrl + url;
+		console.log('the fetch understands that we are in production');*/
+	fullUrl = /*url.toLowerCase().startsWith('https://') ? url : */ config.apiUrl + url; /*
+	} else fullUrl = url.toLowerCase().startsWith('https//') ? url : config.devUrl + url;*/
 	console.log(fullUrl);
 	const res = await fetch(fullUrl, {
 		method: 'GET',
@@ -23,7 +23,12 @@ export async function getRequest(url) {
 }
 
 export async function postRequest(url, data, contentType = 'application/json') {
-	const fullUrl = url.toLowerCase().startsWith('http') ? url : config.devUrl + url;
+	let fullUrl;
+	/* if (process.env.PRODUCTION === 'production') {
+		console.log('the fetch understands that we are in production');*/
+	fullUrl = /*url.toLowerCase().startsWith('https://') ? url : */ config.apiUrl + url; /*
+	} else fullUrl = url.toLowerCase().startsWith('https//') ? url : config.devUrl + url;*/
+	console.log(fullUrl);
 	const res = await fetch(fullUrl, {
 		method: 'POST',
 		headers: { 'Content-Type': contentType },
@@ -35,7 +40,12 @@ export async function postRequest(url, data, contentType = 'application/json') {
 }
 
 export async function deleteRequest(url) {
-	const fullUrl = url.toLowerCase().startsWith('http') ? url : config.devUrl + 'delete/' + url;
+	let fullUrl;
+	/* if (process.env.PRODUCTION === 'production') {
+		console.log('the fetch understands that we are in production');*/
+	fullUrl = /*url.toLowerCase().startsWith('https://') ? url : */ config.apiUrl + url; /*
+	} else fullUrl = url.toLowerCase().startsWith('https//') ? url : config.devUrl + url;*/
+	console.log(fullUrl);
 	const res = await fetch(fullUrl, {
 		method: 'DELETE',
 	})
