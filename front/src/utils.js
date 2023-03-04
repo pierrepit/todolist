@@ -2,7 +2,7 @@ import { useRef, useEffect } from 'react';
 
 const config = {
 	devUrl: 'http://localhost:3001/items/',
-	apiUrl: 'https://todolist-9tsj/onrender.com/items/',
+	apiUrl: 'https://todolist-omega-six.vercel.app/items/',
 	//clientUri: 'http://localhost:3000',
 	//wsUrl: 'ws://localhost:3001'
 };
