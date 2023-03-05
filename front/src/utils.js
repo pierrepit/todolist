@@ -3,18 +3,13 @@ import { useRef, useEffect } from 'react';
 const config = {
 	devUrl: 'http://localhost:3001/items/',
 	apiUrl: 'https://todolist-back-taupe.vercel.app/items/',
-	//clientUri: 'http://localhost:3000',
-	//wsUrl: 'ws://localhost:3001'
 };
 
 export async function getRequest(url) {
 	let fullUrl;
-	console.log(process.env.REACT_APP_STATE);
 	if (process.env.REACT_APP_STATE === 'production') {
-		console.log('the fetch understands that we are in production');
 		fullUrl = url.toLowerCase().startsWith('https://') ? url : config.apiUrl + url;
-	} else fullUrl = url.toLowerCase().startsWith('https//') ? url : config.devUrl + url;
-	console.log(fullUrl);
+	} else fullUrl = url.toLowerCase().startsWith('http//') ? url : config.devUrl + url;
 	const res = await fetch(fullUrl, {
 		method: 'GET',
 	})
@@ -25,11 +20,9 @@ export async function getRequest(url) {
 
 export async function postRequest(url, data, contentType = 'application/json') {
 	let fullUrl;
-	/* if (process.env.PRODUCTION === 'production') {
-		console.log('the fetch understands that we are in production');*/
-	fullUrl = /*url.toLowerCase().startsWith('https://') ? url : */ config.apiUrl + url; /*
-	} else fullUrl = url.toLowerCase().startsWith('https//') ? url : config.devUrl + url;*/
-	console.log(fullUrl);
+	if (process.env.REACT_APP_STATE === 'production') {
+		fullUrl = url.toLowerCase().startsWith('https://') ? url : config.apiUrl + url;
+	} else fullUrl = url.toLowerCase().startsWith('http//') ? url : config.devUrl + url;
 	const res = await fetch(fullUrl, {
 		method: 'POST',
 		headers: { 'Content-Type': contentType },
@@ -42,10 +35,9 @@ export async function postRequest(url, data, contentType = 'application/json') {
 
 export async function deleteRequest(url) {
 	let fullUrl;
-	/* if (process.env.PRODUCTION === 'production') {
-		console.log('the fetch understands that we are in production');*/
-	fullUrl = /*url.toLowerCase().startsWith('https://') ? url : */ config.apiUrl + url; /*
-	} else fullUrl = url.toLowerCase().startsWith('https//') ? url : config.devUrl + url;*/
+	if (process.env.REACT_APP_STATE === 'production') {
+		fullUrl = url.toLowerCase().startsWith('https://') ? url : config.apiUrl + url;
+	} else fullUrl = url.toLowerCase().startsWith('http//') ? url : config.devUrl + url;
 	console.log(fullUrl);
 	const res = await fetch(fullUrl, {
 		method: 'DELETE',

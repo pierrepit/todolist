@@ -5,7 +5,6 @@ let client;
 let db;
 
 export async function connect(url = uri, dbName = 'todolist') {
-	console.log(url);
 	client = new mongoDb.MongoClient(url);
 	await client.connect();
 	console.log(`Connected to ${dbName}`);

@@ -1,16 +1,16 @@
 import express from 'express';
 import {} from 'dotenv/config'; //similar to : import * as dotenv from 'dotenv' then dotenv.config() -or dotenv/config ?
-import * as path from 'path';
-import { fileURLToPath } from 'url';
+//import * as path from 'path';
+//import { fileURLToPath } from 'url';
 import * as api from './api.mjs';
 import * as db from './db.mjs';
 import cors from 'cors';
 
 const app = express();
-const PORT = process.env.PORT || 3001; // PORT set at deployment
+const PORT = process.env.PORT || 3001; // PORT may be set at deployment
 const HOST = process.env.HOST || 'localhost'; // same
 
-const __filename = fileURLToPath(import.meta.url);
+//const __filename = fileURLToPath(import.meta.url);
 //const __dirname = path.dirname(__filename);
 
 await db.connect();
