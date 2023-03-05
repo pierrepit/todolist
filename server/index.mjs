@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 3001; // PORT set at deployment
 const HOST = process.env.HOST || 'localhost'; // same
 
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+//const __dirname = path.dirname(__filename);
 
 await db.connect();
 app.use(cors());

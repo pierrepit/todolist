@@ -9,8 +9,8 @@ const config = {
 
 export async function getRequest(url) {
 	let fullUrl;
-	console.log(process.env.PRODUCTION);
-	if (process.env.PRODUCTION === 'production') {
+	console.log(process.env.REACT_APP_STATE);
+	if (process.env.REACT_APP_STATE === 'production') {
 		console.log('the fetch understands that we are in production');
 		fullUrl = url.toLowerCase().startsWith('https://') ? url : config.apiUrl + url;
 	} else fullUrl = url.toLowerCase().startsWith('https//') ? url : config.devUrl + url;
